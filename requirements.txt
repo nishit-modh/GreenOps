@@ -1,0 +1,11 @@
+streamlit
+python-dotenv
+crewai
+crewai_tools
+pandas
+plotly
+matplotlib
+seaborn
+fpdf
+langchain_groq
+faiss-cpu
