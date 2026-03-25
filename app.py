@@ -18,7 +18,7 @@ load_dotenv()
 os.makedirs('data', exist_ok=True)
 
 # Set page config for wide layout
-st.set_page_config(page_title="YourCarbonFootprint", page_icon="🌍", layout="wide")
+st.set_page_config(page_title="GreenOps", page_icon="🌱", layout="wide")
 
 # Initialize session state variables if they don't exist
 if 'language' not in st.session_state:
