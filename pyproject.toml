@@ -1,11 +1,12 @@
 [project]
-name = "yourcarbonfootprint"
+name = "GreenOps"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "crewai>=0.140.0",
+    "crewai[litellm]>=0.140.0",
     "crewai-tools>=0.49.0",
     "langchain>=0.3.26",
     "langchain-community>=0.3.27",
