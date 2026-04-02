@@ -1029,20 +1029,30 @@ elif st.session_state.active_page == "Settings":
             phone = st.text_input("Contact Phone", value=cs.get("phone", ""))
         
         st.markdown("<h4>Target Export Markets</h4>", unsafe_allow_html=True)
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            export_eu = st.checkbox("European Union (CBAM Compliance)", value=cs.get("export_eu", False))
-        with col2:
-            export_japan = st.checkbox("Japan", value=cs.get("export_japan", False))
-        with col3:
-            export_usa = st.checkbox("United States", value=cs.get("export_usa", False))
+        
+        market_options = [
+            "European Union (CBAM)", "United States", "United Arab Emirates (UAE)", 
+            "United Kingdom", "ASEAN (SE Asia)", "Japan", "Australia", 
+            "Africa", "South Asia (SAARC)"
+        ]
+        
+        # Pull previously saved markets, ensuring they exist in the options list to prevent UI crashes
+        saved_markets = cs.get("export_markets", [])
+        valid_defaults = [m for m in saved_markets if m in market_options]
+        
+        export_markets = st.multiselect(
+            "Select all applicable trade regions:", 
+            options=market_options, 
+            default=valid_defaults,
+            help="This determines the regulatory compliance frameworks the AI will analyze."
+        )
         
         if st.form_submit_button("Save Global Configuration", type="primary"):
             # Update session state
             st.session_state.company_settings = {
                 "company_name": company_name, "industry": industry, "location": location,
                 "contact_person": contact_person, "email": email, "phone": phone,
-                "export_eu": export_eu, "export_japan": export_japan, "export_usa": export_usa
+                "export_markets": export_markets # Saving the entire list dynamically
             }
             # Save to disk
             os.makedirs('data', exist_ok=True)
@@ -1051,7 +1061,7 @@ elif st.session_state.active_page == "Settings":
             st.success("Configuration locked and saved to database.")
 
 elif st.session_state.active_page == "AI Insights":
-    st.markdown(f"<h1>🤖 AI Insights</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>🤖 AI Insights & Advisory</h1>", unsafe_allow_html=True)
     
     # Import AI agents
     from ai_agents import CarbonFootprintAgents
@@ -1059,116 +1069,106 @@ elif st.session_state.active_page == "AI Insights":
     # Initialize AI agents
     if 'ai_agents' not in st.session_state:
         st.session_state.ai_agents = CarbonFootprintAgents()
+        
+    # Grab Global Settings
+    cs = st.session_state.get('company_settings', {})
+    c_location = cs.get("location", "Not Specified")
+    c_industry = cs.get("industry", "Not Specified")
     
-    # Create tabs for different AI insights
+    # Extract dynamic export markets
+    saved_markets = cs.get("export_markets", [])
+    c_exports = ", ".join(saved_markets) if saved_markets else "None"
+
+    # --- DATA COMPRESSOR ENGINE ---
+    def compress_data(df):
+        if df.empty: return "No data available."
+        total_impact = df['emissions_kgCO2e'].sum()
+        scope_summary = df.groupby('scope')['emissions_kgCO2e'].sum().to_dict()
+        top_offenders = df.groupby('activity')['emissions_kgCO2e'].sum().nlargest(3).to_dict()
+        
+        return f"""
+        Total Footprint: {total_impact:.2f} kgCO2e
+        Breakdown by Scope: {scope_summary}
+        Top 3 Worst Carbon Offenders: {top_offenders}
+        """
+
+    # Create tabs
     ai_tabs = st.tabs(["Data Assistant", "Report Summary", "Offset Advisor", "Regulation Radar", "Emission Optimizer"])
     
     with ai_tabs[0]:
-        st.markdown("<h3>Data Entry Assistant</h3>", unsafe_allow_html=True)
-        st.markdown("Get help with classifying emissions and mapping them to the correct scope.")
-        
-        data_description = st.text_area("Describe your emission activity", 
-                                      placeholder="Example: We use diesel generators for backup power at our office in Mumbai. How should I categorize this?")
-        
-        if st.button("Get Assistance", key="data_assistant_btn"):
+        st.markdown("### Data Entry Assistant")
+        data_description = st.text_area("Describe your emission activity", placeholder="Example: We use diesel generators for backup power. How should I categorize this?")
+        if st.button("Get Assistance", type="primary"):
             if data_description:
-                with st.spinner("AI assistant is analyzing your request..."):
+                with st.spinner("Analyzing..."):
                     try:
                         result = st.session_state.ai_agents.run_data_entry_crew(data_description)
-                        # Handle CrewOutput object by converting it to string
-                        result_str = str(result)
-                        st.markdown(f"<div class='stCard'>{result_str}</div>", unsafe_allow_html=True)
+                        st.markdown(f"<div class='stCard'>{str(result)}</div>", unsafe_allow_html=True)
                     except Exception as e:
-                        st.error(f"Error: {str(e)}. Please check your API key and try again.")
+                        st.error(f"API Error: {str(e)}")
             else:
-                st.warning("Please describe your emission activity first.")
+                st.warning("Please describe the activity first.")
     
     with ai_tabs[1]:
-        st.markdown("<h3>Report Summary Generator</h3>", unsafe_allow_html=True)
-        st.markdown("Generate a human-readable summary of your emissions data.")
-        
+        st.markdown("### Executive Report Generator")
         if len(st.session_state.emissions_data) == 0:
-            st.warning("No emissions data available. Please add data first.")
+            st.warning("No data available.")
         else:
-            if st.button("Generate Summary", key="report_summary_btn"):
-                with st.spinner("Generating report summary..."):
+            if st.button("Generate Summary", type="primary"):
+                with st.spinner("Generating executive summary..."):
                     try:
-                        # Convert DataFrame to string representation for the AI
-                        emissions_str = st.session_state.emissions_data.to_string()
-                        result = st.session_state.ai_agents.run_report_summary_crew(emissions_str)
-                        # Handle CrewOutput object by converting it to string
-                        result_str = str(result)
-                        st.markdown(f"<div class='stCard'>{result_str}</div>", unsafe_allow_html=True)
+                        # FIX: Pass compressed data, NOT the raw dataframe
+                        compressed_str = compress_data(st.session_state.emissions_data)
+                        result = st.session_state.ai_agents.run_report_summary_crew(compressed_str)
+                        st.markdown(f"<div class='stCard'>{str(result)}</div>", unsafe_allow_html=True)
                     except Exception as e:
-                        st.error(f"Error: {str(e)}. Please check your API key and try again.")
+                        st.error(f"API Error: {str(e)}")
     
     with ai_tabs[2]:
-        st.markdown("<h3>Carbon Offset Advisor</h3>", unsafe_allow_html=True)
-        st.markdown("Get recommendations for verified carbon offset options based on your profile.")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            location = st.text_input("Location", placeholder="e.g., Mumbai, India")
-            industry = st.selectbox("Industry", ["Manufacturing", "Technology", "Agriculture", "Transportation", "Energy", "Services", "Other"])
+        st.markdown("### Carbon Offset Advisor")
+        st.info(f"**Using Profile:** {c_industry} industry in {c_location}")
         
         if len(st.session_state.emissions_data) == 0:
-            st.warning("No emissions data available. Please add data first.")
+            st.warning("No data available.")
         else:
             total_emissions = st.session_state.emissions_data['emissions_kgCO2e'].sum()
-            st.markdown(f"<p>Total emissions to offset: <strong>{total_emissions:.2f} kgCO2e</strong></p>", unsafe_allow_html=True)
+            st.markdown(f"**Total emissions to offset:** {total_emissions:,.2f} kgCO2e")
             
-            if st.button("Get Offset Recommendations", key="offset_advisor_btn"):
-                if location:
-                    with st.spinner("Finding offset options..."):
-                        try:
-                            result = st.session_state.ai_agents.run_offset_advice_crew(total_emissions, location, industry)
-                            # Handle CrewOutput object by converting it to string
-                            result_str = str(result)
-                            st.markdown(f"<div class='stCard'>{result_str}</div>", unsafe_allow_html=True)
-                        except Exception as e:
-                            st.error(f"Error: {str(e)}. Please check your API key and try again.")
-                else:
-                    st.warning("Please enter your location.")
+            if st.button("Get Offset Recommendations", type="primary"):
+                with st.spinner("Finding verified offset programs..."):
+                    try:
+                        # FIX: Passing global settings implicitly
+                        result = st.session_state.ai_agents.run_offset_advice_crew(total_emissions, c_location, c_industry)
+                        st.markdown(f"<div class='stCard'>{str(result)}</div>", unsafe_allow_html=True)
+                    except Exception as e:
+                        st.error(f"API Error: {str(e)}")
     
     with ai_tabs[3]:
-        st.markdown("<h3>Regulation Radar</h3>", unsafe_allow_html=True)
-        st.markdown("Get insights on current and upcoming carbon regulations relevant to your business.")
+        st.markdown("### Regulation Radar (CBAM & Global)")
+        st.info(f"**Target Markets:** {c_exports}")
         
-        col1, col2 = st.columns(2)
-        with col1:
-            location = st.text_input("Company Location", placeholder="e.g., Jakarta, Indonesia", key="reg_location")
-            industry = st.selectbox("Industry Sector", ["Manufacturing", "Technology", "Agriculture", "Transportation", "Energy", "Services", "Other"], key="reg_industry")
-        with col2:
-            export_markets = st.multiselect("Export Markets", ["European Union", "Japan", "United States", "China", "Indonesia", "India", "Other"])
-        
-        if st.button("Check Regulations", key="regulation_radar_btn"):
-            if location and len(export_markets) > 0:
+        if st.button("Check Regulations", type="primary"):
+            if c_exports != "None":
                 with st.spinner("Analyzing regulatory requirements..."):
                     try:
-                        result = st.session_state.ai_agents.run_regulation_check_crew(location, industry, ", ".join(export_markets))
-                        # Handle CrewOutput object by converting it to string
-                        result_str = str(result)
-                        st.markdown(f"<div class='stCard'>{result_str}</div>", unsafe_allow_html=True)
+                        result = st.session_state.ai_agents.run_regulation_check_crew(c_location, c_industry, c_exports)
+                        st.markdown(f"<div class='stCard'>{str(result)}</div>", unsafe_allow_html=True)
                     except Exception as e:
-                        st.error(f"Error: {str(e)}. Please check your API key and try again.")
+                        st.error(f"API Error: {str(e)}")
             else:
-                st.warning("Please enter your location and select at least one export market.")
+                st.warning("Go to Settings and select at least one Export Market first.")
     
     with ai_tabs[4]:
-        st.markdown("<h3>Emission Optimizer</h3>", unsafe_allow_html=True)
-        st.markdown("Get AI-powered recommendations to reduce your carbon footprint.")
-        
+        st.markdown("### Emission Optimizer")
         if len(st.session_state.emissions_data) == 0:
-            st.warning("No emissions data available. Please add data first.")
+            st.warning("No data available.")
         else:
-            if st.button("Generate Optimization Recommendations", key="emission_optimizer_btn"):
-                with st.spinner("Analyzing your emissions data..."):
+            if st.button("Generate Optimization Strategy", type="primary"):
+                with st.spinner("Analyzing operational bottlenecks..."):
                     try:
-                        # Convert DataFrame to string representation for the AI
-                        emissions_str = st.session_state.emissions_data.to_string()
-                        result = st.session_state.ai_agents.run_optimization_crew(emissions_str)
-                        # Handle CrewOutput object by converting it to string
-                        result_str = str(result)
-                        st.markdown(f"<div class='stCard'>{result_str}</div>", unsafe_allow_html=True)
+                        # FIX: Pass compressed data, NOT the raw dataframe
+                        compressed_str = compress_data(st.session_state.emissions_data)
+                        result = st.session_state.ai_agents.run_optimization_crew(compressed_str)
+                        st.markdown(f"<div class='stCard'>{str(result)}</div>", unsafe_allow_html=True)
                     except Exception as e:
-                        st.error(f"Error: {str(e)}. Please check your API key and try again.")
+                        st.error(f"API Error: {str(e)}")
