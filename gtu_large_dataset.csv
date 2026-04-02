@@ -1,0 +1,251 @@
+date,scope,category,activity,quantity,unit,emission_factor
+2025-10-05,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),1.76,kg,2088.0
+2025-10-06,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,3691.74,kWh,0.82
+2025-10-07,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),297.05,kg,0.02
+2025-10-07,Waste Management,Landfill,Plastic Packaging (Landfill),85.97,kg,0.05
+2025-10-07,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),313.16,kg,0.02
+2025-10-07,Waste Management,Landfill,Organic Waste (Landfill),69.12,kg,1.5
+2025-10-08,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,4074.16,kWh,0.82
+2025-10-12,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1385.28,Liters,2.68
+2025-10-13,Energy Consumption,Renewable (Clean),Solar Power,1894.45,kWh,0.0
+2025-10-14,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),181.29,kg,0.1
+2025-10-15,Energy Consumption,Renewable (Clean),Wind Power,525.35,kWh,0.0
+2025-10-15,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1035.81,Liters,2.68
+2025-10-15,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,487.77,Liters,2.68
+2025-10-19,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,3757.46,kWh,0.82
+2025-10-20,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,730.51,km,0.19
+2025-10-20,Energy Consumption,Renewable (Clean),Solar Power,1081.04,kWh,0.0
+2025-10-21,Carbon Emissions,Direct Emission,Business Flight,2794.99,km,0.25
+2025-10-22,Waste Management,Landfill,Paper/Cardboard (Landfill),96.38,kg,0.5
+2025-10-23,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,257.64,km,0.19
+2025-10-23,Energy Consumption,Renewable (Clean),Wind Power,1464.2,kWh,0.0
+2025-10-23,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),174.99,kg,0.02
+2025-10-24,Energy Consumption,Renewable (Clean),Solar Power,1802.73,kWh,0.0
+2025-10-24,Waste Management,Landfill,Organic Waste (Landfill),68.62,kg,1.5
+2025-10-25,Waste Management,Landfill,E-Waste (Landfill),15.87,kg,0.1
+2025-10-26,Carbon Emissions,Direct Emission,Business Flight,4453.45,km,0.25
+2025-10-26,Energy Consumption,Renewable (Clean),Solar Power,1748.34,kWh,0.0
+2025-10-27,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),328.59,kg,0.02
+2025-10-27,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,122.22,km,0.19
+2025-10-28,Waste Management,Landfill,Paper/Cardboard (Landfill),185.76,kg,0.5
+2025-10-28,Waste Management,Landfill,E-Waste (Landfill),19.96,kg,0.1
+2025-10-28,Waste Management,Landfill,Plastic Packaging (Landfill),26.51,kg,0.05
+2025-10-29,Energy Consumption,Renewable (Clean),Wind Power,730.78,kWh,0.0
+2025-10-29,Energy Consumption,Renewable (Clean),Wind Power,1478.45,kWh,0.0
+2025-10-29,Waste Management,Landfill,Organic Waste (Landfill),80.39,kg,1.5
+2025-10-31,Waste Management,Landfill,E-Waste (Landfill),47.19,kg,0.1
+2025-10-31,Carbon Emissions,Direct Emission,EV Commute,663.92,km,0.0
+2025-10-31,Carbon Emissions,Direct Emission,EV Commute,833.39,km,0.0
+2025-11-01,Energy Consumption,Renewable (Clean),Solar Power,1734.52,kWh,0.0
+2025-11-02,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2892.8,Liters,2.68
+2025-11-02,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,197.6,km,0.19
+2025-11-02,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,907.6,km,0.19
+2025-11-02,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),317.38,kg,0.02
+2025-11-03,Carbon Emissions,Direct Emission,Business Flight,4799.27,km,0.25
+2025-11-03,Waste Management,Landfill,Organic Waste (Landfill),135.04,kg,1.5
+2025-11-04,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,225.25,km,0.19
+2025-11-04,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1706.64,Liters,2.68
+2025-11-06,Waste Management,Landfill,Paper/Cardboard (Landfill),137.33,kg,0.5
+2025-11-06,Waste Management,Landfill,E-Waste (Landfill),19.46,kg,0.1
+2025-11-06,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,1320.58,kWh,0.82
+2025-11-07,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),161.74,kg,0.1
+2025-11-07,Energy Consumption,Renewable (Clean),Solar Power,1356.79,kWh,0.0
+2025-11-07,Energy Consumption,Renewable (Clean),Solar Power,1592.97,kWh,0.0
+2025-11-08,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),545.79,kg,0.02
+2025-11-08,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,689.53,km,0.19
+2025-11-09,Energy Consumption,Renewable (Clean),Solar Power,1437.19,kWh,0.0
+2025-11-09,Waste Management,Landfill,Paper/Cardboard (Landfill),199.86,kg,0.5
+2025-11-09,Waste Management,Landfill,Plastic Packaging (Landfill),20.85,kg,0.05
+2025-11-09,Waste Management,Landfill,E-Waste (Landfill),41.23,kg,0.1
+2025-11-11,Energy Consumption,Renewable (Clean),Wind Power,1353.29,kWh,0.0
+2025-11-11,Energy Consumption,Renewable (Clean),Solar Power,728.64,kWh,0.0
+2025-11-12,Energy Consumption,Renewable (Clean),Solar Power,1825.06,kWh,0.0
+2025-11-12,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1131.18,Liters,2.68
+2025-11-13,Waste Management,Landfill,Organic Waste (Landfill),128.15,kg,1.5
+2025-11-13,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),167.87,kg,0.1
+2025-11-14,Energy Consumption,Renewable (Clean),Solar Power,1975.44,kWh,0.0
+2025-11-15,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),2.25,kg,2088.0
+2025-11-15,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),345.65,kg,0.02
+2025-11-15,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),318.66,kg,0.02
+2025-11-17,Carbon Emissions,Direct Emission,Business Flight,6782.29,km,0.25
+2025-11-21,Waste Management,Landfill,Plastic Packaging (Landfill),91.59,kg,0.05
+2025-11-21,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),181.76,kg,0.1
+2025-11-22,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,1333.73,kWh,0.82
+2025-11-24,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),249.95,kg,0.02
+2025-11-24,Waste Management,Landfill,Paper/Cardboard (Landfill),110.31,kg,0.5
+2025-11-24,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),512.4,kg,0.02
+2025-11-26,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),352.88,kg,0.02
+2025-11-26,Carbon Emissions,Direct Emission,EV Commute,866.86,km,0.0
+2025-11-27,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),136.21,kg,0.1
+2025-11-28,Carbon Emissions,Direct Emission,EV Commute,313.49,km,0.0
+2025-11-28,Energy Consumption,Renewable (Clean),Solar Power,1274.5,kWh,0.0
+2025-11-28,Carbon Emissions,Direct Emission,Business Flight,3583.11,km,0.25
+2025-11-29,Energy Consumption,Renewable (Clean),Solar Power,552.37,kWh,0.0
+2025-11-30,Waste Management,Landfill,Paper/Cardboard (Landfill),167.49,kg,0.5
+2025-11-30,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,1016.46,kWh,0.82
+2025-11-30,Carbon Emissions,Direct Emission,EV Commute,900.98,km,0.0
+2025-12-01,Waste Management,Landfill,E-Waste (Landfill),36.36,kg,0.1
+2025-12-01,Carbon Emissions,Direct Emission,EV Commute,377.77,km,0.0
+2025-12-02,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1891.28,Liters,2.68
+2025-12-02,Energy Consumption,Renewable (Clean),Solar Power,1958.14,kWh,0.0
+2025-12-03,Carbon Emissions,Direct Emission,EV Commute,703.94,km,0.0
+2025-12-04,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),88.54,kg,0.1
+2025-12-04,Energy Consumption,Renewable (Clean),Wind Power,845.29,kWh,0.0
+2025-12-05,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,920.52,km,0.19
+2025-12-06,Waste Management,Landfill,Organic Waste (Landfill),42.11,kg,1.5
+2025-12-06,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),196.9,kg,0.02
+2025-12-08,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2313.11,Liters,2.68
+2025-12-08,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2116.0,Liters,2.68
+2025-12-08,Waste Management,Landfill,Paper/Cardboard (Landfill),69.59,kg,0.5
+2025-12-08,Waste Management,Landfill,E-Waste (Landfill),15.12,kg,0.1
+2025-12-08,Energy Consumption,Renewable (Clean),Wind Power,1114.97,kWh,0.0
+2025-12-10,Energy Consumption,Renewable (Clean),Wind Power,1368.89,kWh,0.0
+2025-12-10,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,437.67,km,0.19
+2025-12-11,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),214.46,kg,0.1
+2025-12-11,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),0.66,kg,2088.0
+2025-12-12,Carbon Emissions,Direct Emission,EV Commute,590.98,km,0.0
+2025-12-14,Waste Management,Landfill,E-Waste (Landfill),32.62,kg,0.1
+2025-12-17,Energy Consumption,Renewable (Clean),Wind Power,881.46,kWh,0.0
+2025-12-17,Carbon Emissions,Direct Emission,Business Flight,6478.49,km,0.25
+2025-12-19,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,2450.27,kWh,0.82
+2025-12-19,Waste Management,Landfill,Plastic Packaging (Landfill),33.96,kg,0.05
+2025-12-19,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),70.94,kg,0.1
+2025-12-21,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),211.11,kg,0.1
+2025-12-21,Waste Management,Landfill,Organic Waste (Landfill),114.18,kg,1.5
+2025-12-21,Energy Consumption,Renewable (Clean),Solar Power,1027.99,kWh,0.0
+2025-12-22,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),2.56,kg,2088.0
+2025-12-22,Waste Management,Landfill,Organic Waste (Landfill),62.22,kg,1.5
+2025-12-22,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),115.76,kg,0.02
+2025-12-23,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1973.33,Liters,2.68
+2025-12-24,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2583.97,Liters,2.68
+2025-12-24,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),128.7,kg,0.02
+2025-12-26,Energy Consumption,Renewable (Clean),Wind Power,720.75,kWh,0.0
+2025-12-26,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,614.27,km,0.19
+2025-12-27,Carbon Emissions,Direct Emission,Business Flight,6582.73,km,0.25
+2025-12-27,Waste Management,Landfill,E-Waste (Landfill),10.03,kg,0.1
+2025-12-28,Waste Management,Landfill,Paper/Cardboard (Landfill),176.42,kg,0.5
+2025-12-28,Waste Management,Landfill,E-Waste (Landfill),45.9,kg,0.1
+2025-12-30,Waste Management,Landfill,Paper/Cardboard (Landfill),76.91,kg,0.5
+2025-12-31,Waste Management,Landfill,Paper/Cardboard (Landfill),34.16,kg,0.5
+2026-01-01,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,518.94,km,0.19
+2026-01-01,Waste Management,Landfill,Paper/Cardboard (Landfill),154.32,kg,0.5
+2026-01-03,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1702.47,Liters,2.68
+2026-01-04,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),340.69,kg,0.02
+2026-01-04,Waste Management,Landfill,Organic Waste (Landfill),126.84,kg,1.5
+2026-01-04,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,3880.48,kWh,0.82
+2026-01-06,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),1.76,kg,2088.0
+2026-01-06,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,281.33,km,0.19
+2026-01-06,Waste Management,Landfill,E-Waste (Landfill),35.85,kg,0.1
+2026-01-07,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,931.32,km,0.19
+2026-01-07,Waste Management,Landfill,Plastic Packaging (Landfill),51.26,kg,0.05
+2026-01-08,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),2.31,kg,2088.0
+2026-01-10,Carbon Emissions,Direct Emission,Business Flight,3074.58,km,0.25
+2026-01-10,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,327.88,km,0.19
+2026-01-11,Waste Management,Landfill,E-Waste (Landfill),13.15,kg,0.1
+2026-01-11,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),54.32,kg,0.1
+2026-01-12,Waste Management,Landfill,Paper/Cardboard (Landfill),127.07,kg,0.5
+2026-01-12,Energy Consumption,Renewable (Clean),Wind Power,730.43,kWh,0.0
+2026-01-13,Energy Consumption,Renewable (Clean),Wind Power,928.63,kWh,0.0
+2026-01-14,Waste Management,Landfill,Paper/Cardboard (Landfill),38.08,kg,0.5
+2026-01-14,Waste Management,Landfill,Plastic Packaging (Landfill),78.83,kg,0.05
+2026-01-15,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),245.14,kg,0.1
+2026-01-16,Energy Consumption,Renewable (Clean),Solar Power,1915.29,kWh,0.0
+2026-01-16,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),110.59,kg,0.1
+2026-01-17,Energy Consumption,Renewable (Clean),Solar Power,713.03,kWh,0.0
+2026-01-18,Waste Management,Landfill,E-Waste (Landfill),34.29,kg,0.1
+2026-01-19,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2423.3,Liters,2.68
+2026-01-20,Carbon Emissions,Direct Emission,EV Commute,701.58,km,0.0
+2026-01-21,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),149.55,kg,0.02
+2026-01-24,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,3148.85,kWh,0.82
+2026-01-25,Waste Management,Landfill,E-Waste (Landfill),47.5,kg,0.1
+2026-01-25,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,4355.51,kWh,0.82
+2026-01-26,Carbon Emissions,Direct Emission,Business Flight,5414.74,km,0.25
+2026-01-28,Energy Consumption,Renewable (Clean),Wind Power,1201.22,kWh,0.0
+2026-01-29,Waste Management,Landfill,E-Waste (Landfill),25.54,kg,0.1
+2026-01-29,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,447.32,km,0.19
+2026-01-30,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,2092.58,kWh,0.82
+2026-01-30,Carbon Emissions,Direct Emission,Business Flight,1773.02,km,0.25
+2026-01-31,Waste Management,Landfill,E-Waste (Landfill),26.87,kg,0.1
+2026-01-31,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,1754.91,kWh,0.82
+2026-01-31,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,2073.2,kWh,0.82
+2026-02-01,Carbon Emissions,Direct Emission,EV Commute,603.86,km,0.0
+2026-02-01,Energy Consumption,Renewable (Clean),Wind Power,978.6,kWh,0.0
+2026-02-01,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,153.56,km,0.19
+2026-02-01,Waste Management,Landfill,E-Waste (Landfill),12.02,kg,0.1
+2026-02-02,Waste Management,Landfill,E-Waste (Landfill),20.01,kg,0.1
+2026-02-03,Energy Consumption,Renewable (Clean),Solar Power,1532.9,kWh,0.0
+2026-02-03,Energy Consumption,Renewable (Clean),Solar Power,1366.73,kWh,0.0
+2026-02-05,Energy Consumption,Renewable (Clean),Solar Power,1760.65,kWh,0.0
+2026-02-06,Waste Management,Landfill,E-Waste (Landfill),44.63,kg,0.1
+2026-02-07,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),215.99,kg,0.1
+2026-02-08,Waste Management,Landfill,Organic Waste (Landfill),130.96,kg,1.5
+2026-02-08,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2695.72,Liters,2.68
+2026-02-08,Energy Consumption,Renewable (Clean),Wind Power,429.5,kWh,0.0
+2026-02-08,Waste Management,Landfill,Plastic Packaging (Landfill),53.65,kg,0.05
+2026-02-08,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),125.0,kg,0.02
+2026-02-08,Waste Management,Landfill,E-Waste (Landfill),42.13,kg,0.1
+2026-02-09,Waste Management,Landfill,E-Waste (Landfill),6.56,kg,0.1
+2026-02-09,Energy Consumption,Renewable (Clean),Solar Power,581.58,kWh,0.0
+2026-02-13,Carbon Emissions,Direct Emission,Business Flight,2518.22,km,0.25
+2026-02-13,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),244.4,kg,0.02
+2026-02-14,Energy Consumption,Renewable (Clean),Wind Power,945.31,kWh,0.0
+2026-02-14,Energy Consumption,Renewable (Clean),Solar Power,1499.03,kWh,0.0
+2026-02-14,Energy Consumption,Renewable (Clean),Wind Power,1170.86,kWh,0.0
+2026-02-14,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,4249.37,kWh,0.82
+2026-02-14,Carbon Emissions,Direct Emission,EV Commute,706.57,km,0.0
+2026-02-17,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2440.84,Liters,2.68
+2026-02-17,Energy Consumption,Renewable (Clean),Wind Power,326.0,kWh,0.0
+2026-02-20,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,548.95,Liters,2.68
+2026-02-21,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),397.28,kg,0.02
+2026-02-21,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,681.32,km,0.19
+2026-02-22,Energy Consumption,Renewable (Clean),Wind Power,334.13,kWh,0.0
+2026-02-23,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),2.37,kg,2088.0
+2026-02-25,Waste Management,Landfill,Paper/Cardboard (Landfill),71.18,kg,0.5
+2026-02-25,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),317.75,kg,0.02
+2026-02-27,Waste Management,Landfill,Organic Waste (Landfill),80.83,kg,1.5
+2026-02-28,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),161.79,kg,0.02
+2026-03-04,Waste Management,Landfill,Plastic Packaging (Landfill),68.92,kg,0.05
+2026-03-04,Carbon Emissions,Direct Emission,EV Commute,494.8,km,0.0
+2026-03-05,Waste Management,Landfill,Paper/Cardboard (Landfill),158.67,kg,0.5
+2026-03-06,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),113.13,kg,0.02
+2026-03-06,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),488.23,kg,0.02
+2026-03-06,Waste Management,Recycled/Composted,Paper/Cardboard (Recycled/Composted),581.53,kg,0.02
+2026-03-07,Energy Consumption,Renewable (Clean),Solar Power,1100.69,kWh,0.0
+2026-03-08,Waste Management,Landfill,E-Waste (Landfill),40.85,kg,0.1
+2026-03-09,Waste Management,Landfill,Plastic Packaging (Landfill),75.09,kg,0.05
+2026-03-09,Carbon Emissions,Direct Emission,Business Flight,6170.89,km,0.25
+2026-03-10,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,355.19,km,0.19
+2026-03-11,Waste Management,Landfill,Plastic Packaging (Landfill),50.38,kg,0.05
+2026-03-13,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2006.06,Liters,2.68
+2026-03-14,Waste Management,Landfill,Organic Waste (Landfill),124.75,kg,1.5
+2026-03-16,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,4404.69,kWh,0.82
+2026-03-16,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,1903.35,Liters,2.68
+2026-03-16,Waste Management,Landfill,Paper/Cardboard (Landfill),80.32,kg,0.5
+2026-03-16,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,845.42,Liters,2.68
+2026-03-17,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,100.12,km,0.19
+2026-03-17,Waste Management,Landfill,Organic Waste (Landfill),121.32,kg,1.5
+2026-03-18,Waste Management,Landfill,Plastic Packaging (Landfill),40.82,kg,0.05
+2026-03-18,Waste Management,Landfill,Organic Waste (Landfill),56.88,kg,1.5
+2026-03-20,Energy Consumption,Non-Renewable (Fossil),Diesel Generator,2931.61,Liters,2.68
+2026-03-20,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,653.87,km,0.19
+2026-03-21,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),398.36,kg,0.02
+2026-03-22,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,412.29,km,0.19
+2026-03-23,Carbon Emissions,Direct Emission,EV Commute,198.75,km,0.0
+2026-03-26,Carbon Emissions,Direct Emission,Petrol Vehicle Commute,837.02,km,0.19
+2026-03-27,Waste Management,Landfill,Organic Waste (Landfill),56.35,kg,1.5
+2026-03-27,Waste Management,Landfill,Organic Waste (Landfill),86.23,kg,1.5
+2026-03-28,Waste Management,Landfill,Paper/Cardboard (Landfill),55.24,kg,0.5
+2026-03-28,Carbon Emissions,Direct Emission,Business Flight,6070.52,km,0.25
+2026-03-29,Carbon Emissions,Direct Emission,AC Refrigerant Leak (R410a),1.23,kg,2088.0
+2026-03-29,Waste Management,Landfill,Organic Waste (Landfill),24.99,kg,1.5
+2026-03-29,Waste Management,Landfill,Plastic Packaging (Landfill),78.89,kg,0.05
+2026-03-29,Carbon Emissions,Direct Emission,EV Commute,437.92,km,0.0
+2026-03-30,Energy Consumption,Renewable (Clean),Wind Power,978.78,kWh,0.0
+2026-03-30,Carbon Emissions,Direct Emission,EV Commute,991.81,km,0.0
+2026-03-30,Waste Management,Recycled/Composted,Organic Waste (Recycled/Composted),101.91,kg,0.1
+2026-03-31,Carbon Emissions,Direct Emission,Business Flight,3877.01,km,0.25
+2026-04-01,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),161.28,kg,0.02
+2026-04-01,Waste Management,Recycled/Composted,Plastic Packaging (Recycled/Composted),377.02,kg,0.02
+2026-04-02,Waste Management,Landfill,Organic Waste (Landfill),116.38,kg,1.5
+2026-04-02,Waste Management,Landfill,Organic Waste (Landfill),147.72,kg,1.5
+2026-04-03,Energy Consumption,Non-Renewable (Fossil),Grid Electricity,3342.09,kWh,0.82
