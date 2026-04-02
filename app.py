@@ -660,151 +660,193 @@ with st.sidebar:
 
 # Main content
 if st.session_state.active_page == "Dashboard":
-    st.markdown(f"<h1> {t('dashboard')}</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Enterprise Analytics Dashboard</h1>", unsafe_allow_html=True)
     
     if len(st.session_state.emissions_data) == 0:
-        st.markdown(f"<div class='info-box'>{t('welcome_message')}</div>", unsafe_allow_html=True)
+        st.info("No data available. Proceed to Data Entry to initialize the database.")
     else:
-        # Calculate metrics
-        # Ensure emissions_kgCO2e is numeric
-        st.session_state.emissions_data['emissions_kgCO2e'] = pd.to_numeric(st.session_state.emissions_data['emissions_kgCO2e'], errors='coerce')
+        df = st.session_state.emissions_data.copy()
+        df['date'] = pd.to_datetime(df['date'])
         
-        # Replace NaN with 0
-        st.session_state.emissions_data['emissions_kgCO2e'].fillna(0, inplace=True)
+        # --- CORE MATH & FILTERING ---
+        total_impact = df['emissions_kgCO2e'].sum()
         
-        total_emissions = st.session_state.emissions_data['emissions_kgCO2e'].sum()
+        # Energy Math
+        energy_df = df[df['scope'] == 'Energy Consumption']
+        total_energy = energy_df['quantity'].sum()
+        renew_energy = energy_df[energy_df['category'] == 'Renewable (Clean)']['quantity'].sum()
+        renew_ratio = (renew_energy / total_energy * 100) if total_energy > 0 else 0
         
-        # Display metrics
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            metric_card(
-                title=t('total_emissions'),
-                value=f"{total_emissions:.2f}",
-                suffix=" kgCO2e",
-                icon="🌍"
-            )
-        with col2:
-            if 'date' in st.session_state.emissions_data.columns:
-                st.session_state.emissions_data['date'] = pd.to_datetime(st.session_state.emissions_data['date'], errors='coerce')
-                if not st.session_state.emissions_data['date'].isnull().all():
-                    latest_date = st.session_state.emissions_data['date'].max().strftime('%Y-%m-%d')
-                else:
-                    latest_date = "No date data"
-                metric_card(
-                    title="Latest Entry",
-                    value=latest_date,
-                    icon="📅"
-                )
-        with col3:
-            entry_count = len(st.session_state.emissions_data)
-            metric_card(
-                title="Total Entries",
-                value=str(entry_count),
-                icon="📊"
-            )
+        # Waste Math
+        waste_df = df[df['scope'] == 'Waste Management']
+        total_waste = waste_df['quantity'].sum()
+        recycled_waste = waste_df[waste_df['category'] == 'Recycled/Composted']['quantity'].sum()
+        recycle_ratio = (recycled_waste / total_waste * 100) if total_waste > 0 else 0
+
+        # --- HIGH-LEVEL INSIGHT ENGINE ---
+        st.markdown("### 🧠 Automated System Insights")
+        insight_col1, insight_col2 = st.columns(2)
         
-        # Charts
-        st.markdown(f"<h2>{t('emissions_by_scope')}</h2>", unsafe_allow_html=True)
-        
-        # Check if there are any non-zero emissions before creating charts
-        if total_emissions > 0:
-            # Create scope data for pie chart
-            scope_data = st.session_state.emissions_data.groupby('scope')['emissions_kgCO2e'].sum().reset_index()
-            
-            # Only create chart if we have data with emissions
-            if not scope_data.empty and scope_data['emissions_kgCO2e'].sum() > 0:
-                fig1 = px.pie(
-                    scope_data, 
-                    values='emissions_kgCO2e', 
-                    names='scope', 
-                    color='scope', 
-                    color_discrete_map={'Scope 1': '#4CAF50', 'Scope 2': '#2196F3', 'Scope 3': '#FFC107'},
-                    hole=0.4
-                )
-                fig1.update_layout(
-                    margin=dict(t=0, b=0, l=0, r=0),
-                    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
-                    height=400
-                )
-                st.plotly_chart(fig1, use_container_width=True, config={'displayModeBar': False})
+        with insight_col1:
+            # Insight 1: Predictive Run-Rate
+            days_logged = (df['date'].max() - df['date'].min()).days
+            if days_logged > 5: # Need a minimum baseline for projection
+                daily_rate = total_impact / days_logged
+                projected_annual = daily_rate * 365
+                st.warning(f"**📈 Projected Annual Run-Rate:** Based on current velocity, your facility is on track to emit **{projected_annual:,.0f} kgCO2e** over 12 months.")
             else:
-                st.info("No emissions data available for scope breakdown.")
-        else:
-            st.info("No emissions data available for scope breakdown.")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown(f"<h2>{t('emissions_by_category')}</h2>", unsafe_allow_html=True)
-            
-            if total_emissions > 0:
-                # Create category data for bar chart
-                category_data = st.session_state.emissions_data.groupby('category')['emissions_kgCO2e'].sum().reset_index()
-                category_data = category_data.sort_values('emissions_kgCO2e', ascending=False)
+                st.info("**📈 Projected Annual Run-Rate:** Insufficient temporal data (need >5 days spread) to calculate yearly projection.")
                 
-                # Only create chart if we have data with emissions
-                if not category_data.empty and category_data['emissions_kgCO2e'].sum() > 0:
-                    fig2 = px.bar(
-                        category_data, 
-                        x='category', 
-                        y='emissions_kgCO2e', 
-                        color='category',
-                        labels={'emissions_kgCO2e': 'Emissions (kgCO2e)', 'category': 'Category'}
-                    )
-                    fig2.update_layout(
-                        showlegend=False,
-                        margin=dict(t=0, b=0, l=0, r=0),
-                        height=400
-                    )
-                    st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
+        with insight_col2:
+            # Insight 2: Worst Offender Identification
+            if total_impact > 0:
+                worst_offender = df.groupby('activity')['emissions_kgCO2e'].sum().idxmax()
+                worst_value = df.groupby('activity')['emissions_kgCO2e'].sum().max()
+                st.error(f"**⚠️ Primary Carbon Bottleneck:** **{worst_offender}** is currently responsible for **{worst_value:,.0f} kgCO2e**, making it your highest priority for reduction.")
+
+        st.divider()
+
+        # --- EXPORT REPORT ---
+        csv_export = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📄 Download ESG Compliance Report",
+            data=csv_export,
+            file_name=f"GreenOps_Report_{st.session_state.get('company_settings', {}).get('company_name', 'Enterprise')}.csv",
+            mime="text/csv",
+        )
+
+        # --- THE 3-TAB ARCHITECTURE ---
+        tab1, tab2, tab3 = st.tabs(["📊 Executive Summary", "⚡ Energy Deep-Dive", "🗑️ Waste & Logistics"])
+        
+        # ==========================================
+        # TAB 1: EXECUTIVE SUMMARY
+        # ==========================================
+        with tab1:
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                metric_card("Total Impact", f"{total_impact:,.0f}", "kgCO2e", "🌍")
+            with col2:
+                metric_card("Renewable Ratio", f"{renew_ratio:.1f}", "% of Total Power", "🌱")
+            with col3:
+                metric_card("Recycling Rate", f"{recycle_ratio:.1f}", "% of Total Waste", "♻️")
+            with col4:
+                metric_card("Total Entries", str(len(df)), "Database Rows", "🗄️")
+                
+            col_chart1, col_chart2 = st.columns(2)
+            with col_chart1:
+                st.markdown("**Impact by Domain**")
+                domain_data = df.groupby('scope')['emissions_kgCO2e'].sum().reset_index()
+                if domain_data['emissions_kgCO2e'].sum() > 0:
+                    fig1 = px.pie(domain_data, values='emissions_kgCO2e', names='scope', hole=0.4,
+                                  color_discrete_sequence=['#2196F3', '#8D6E63', '#4CAF50'])
+                    fig1.update_layout(margin=dict(t=0, b=0, l=0, r=0))
+                    st.plotly_chart(fig1, use_container_width=True)
                 else:
-                    st.info("No emissions data available for category breakdown.")
+                    st.info("Awaiting impactful data.")
+                    
+            with col_chart2:
+                st.markdown("**Temporal Trend (Month over Month)**")
+                df['month'] = df['date'].dt.strftime('%Y-%m')
+                trend_data = df.groupby('month')['emissions_kgCO2e'].sum().reset_index()
+                if len(trend_data) > 0:
+                    fig2 = px.line(trend_data, x='month', y='emissions_kgCO2e', markers=True)
+                    fig2.update_layout(margin=dict(t=0, b=0, l=0, r=0), xaxis_title="", yaxis_title="kgCO2e")
+                    st.plotly_chart(fig2, use_container_width=True)
+
+        # ==========================================
+        # TAB 2: ENERGY ANALYTICS
+        # ==========================================
+        with tab2:
+            if energy_df.empty:
+                st.info("No Energy data logged.")
             else:
-                st.info("No emissions data available for category breakdown.")
-        
-        with col2:
-            st.markdown(f"<h2>{t('emissions_over_time')}</h2>", unsafe_allow_html=True)
-            
-            if total_emissions > 0 and 'date' in st.session_state.emissions_data.columns:
-                # Convert date column to datetime
-                time_data = st.session_state.emissions_data.copy()
-                time_data['date'] = pd.to_datetime(time_data['date'], errors='coerce')
-                
-                # Filter out rows with invalid dates
-                time_data = time_data.dropna(subset=['date'])
-                
-                if not time_data.empty:
-                    # Create month column for aggregation
-                    time_data['month'] = time_data['date'].dt.strftime('%Y-%m')
+                e_col1, e_col2 = st.columns(2)
+                with e_col1:
+                    st.markdown("**Carbon Footprint by Source (kgCO2e)**")
+                    e_emissions_data = energy_df.groupby('activity')['emissions_kgCO2e'].sum().reset_index()
+                    # Filter out renewables so we only map the actual carbon offenders
+                    dirty_energy = e_emissions_data[e_emissions_data['emissions_kgCO2e'] > 0]
                     
-                    # Group by month and scope
-                    time_data = time_data.groupby(['month', 'scope'])['emissions_kgCO2e'].sum().reset_index()
-                    
-                    if len(time_data['month'].unique()) > 0:
-                        # Create line chart
-                        fig3 = px.line(
-                            time_data, 
-                            x='month', 
-                            y='emissions_kgCO2e', 
-                            color='scope', 
-                            markers=True,
-                            color_discrete_map={'Scope 1': '#4CAF50', 'Scope 2': '#2196F3', 'Scope 3': '#FFC107'},
-                            labels={'emissions_kgCO2e': 'Emissions (kgCO2e)', 'month': 'Month', 'scope': 'Scope'}
-                        )
-                        fig3.update_layout(
-                            margin=dict(t=0, b=0, l=0, r=0),
-                            xaxis_title="",
-                            yaxis_title="kgCO2e",
-                            legend_title="",
-                            height=400
-                        )
-                        st.plotly_chart(fig3, use_container_width=True, config={'displayModeBar': False})
+                    if not dirty_energy.empty:
+                        fig3 = px.pie(dirty_energy, values='emissions_kgCO2e', names='activity', hole=0.4,
+                                      color_discrete_sequence=['#F44336', '#FF9800', '#8D6E63'])
+                        fig3.update_layout(margin=dict(t=30, b=10, l=10, r=10))
+                        st.plotly_chart(fig3, use_container_width=True)
                     else:
-                        st.info("Not enough time data to show emissions over time.")
+                        st.success("100% Clean Energy! No carbon footprint from power consumption.")
+                with e_col2:
+                    st.markdown("**Energy Transition Trajectory (Ternary Plot)**")
+                    if 'date' in energy_df.columns and not energy_df.empty:
+                        t_df = energy_df.copy()
+                        t_df['month'] = pd.to_datetime(t_df['date']).dt.strftime('%Y-%m')
+                        
+                        # Map activities to the 3 Ternary Axes
+                        def map_axis(activity):
+                            if activity == 'Grid Electricity': return 'Grid (Traditional)'
+                            elif activity == 'Diesel Generator': return 'Diesel (Off-Grid Fossil)'
+                            else: return 'Clean (Solar/Wind)'
+                            
+                        t_df['axis'] = t_df['activity'].apply(map_axis)
+                        
+                        # Aggregate and calculate percentages
+                        pivot_df = t_df.groupby(['month', 'axis'])['quantity'].sum().unstack(fill_value=0).reset_index()
+                        
+                        # Ensure all axes exist even if data is missing
+                        for col in ['Grid (Traditional)', 'Diesel (Off-Grid Fossil)', 'Clean (Solar/Wind)']:
+                            if col not in pivot_df.columns: pivot_df[col] = 0
+                                
+                        pivot_df['Total'] = pivot_df['Grid (Traditional)'] + pivot_df['Diesel (Off-Grid Fossil)'] + pivot_df['Clean (Solar/Wind)']
+                        pivot_df = pivot_df[pivot_df['Total'] > 0] # Prevent division by zero
+                        
+                        # Normalize to 100%
+                        pivot_df['Clean_%'] = (pivot_df['Clean (Solar/Wind)'] / pivot_df['Total']) * 100
+                        pivot_df['Grid_%'] = (pivot_df['Grid (Traditional)'] / pivot_df['Total']) * 100
+                        pivot_df['Diesel_%'] = (pivot_df['Diesel (Off-Grid Fossil)'] / pivot_df['Total']) * 100
+                        
+                        # Plot the triangle
+                        if len(pivot_df) > 0:
+                            fig_ternary = px.line_ternary(
+                                pivot_df, 
+                                a="Clean_%", 
+                                b="Grid_%", 
+                                c="Diesel_%",
+                                hover_name="month", 
+                                markers=True,
+                                template="plotly_dark" if st.get_option("theme.base") == "dark" else "plotly_white"
+                            )
+                            fig_ternary.update_traces(line=dict(width=3, color='#4CAF50'), marker=dict(size=8))
+                            fig_ternary.update_layout(margin=dict(t=30, b=10, l=10, r=10))
+                            st.plotly_chart(fig_ternary, use_container_width=True)
+                        else:
+                            st.info("Insufficient data to plot trajectory.")
+                    else:
+                        st.info("Awaiting temporal data.")
+
+        # ==========================================
+        # TAB 3: WASTE & LOGISTICS
+        # ==========================================
+        with tab3:
+            w_col1, w_col2 = st.columns(2)
+            with w_col1:
+                st.markdown("**Waste Lifecycle Analysis**")
+                if not waste_df.empty:
+                    # Extract just the material name by stripping the method from the activity string
+                    waste_df['material'] = waste_df['activity'].apply(lambda x: x.split(' (')[0])
+                    fig5 = px.bar(waste_df, x='material', y='quantity', color='category', 
+                                  title="Disposal Method by Material (kg)",
+                                  color_discrete_map={'Recycled/Composted': '#4CAF50', 'Landfill': '#8D6E63'})
+                    st.plotly_chart(fig5, use_container_width=True)
                 else:
-                    st.info("No valid date data available for time series chart.")
-            else:
-                st.info("No emissions data available for time series chart.")
+                    st.info("No Waste data logged.")
+                    
+            with w_col2:
+                st.markdown("**Direct Carbon Footprint**")
+                carbon_df = df[df['scope'] == 'Carbon Emissions']
+                if not carbon_df.empty:
+                    fig6 = px.bar(carbon_df, x='activity', y='emissions_kgCO2e', color='activity')
+                    st.plotly_chart(fig6, use_container_width=True)
+                else:
+                    st.info("No Direct Carbon data logged.")
 
 elif st.session_state.active_page == "Data Entry":
     st.markdown("<h1>Add New Sustainability Entry</h1>", unsafe_allow_html=True)
@@ -929,19 +971,28 @@ elif st.session_state.active_page == "Data Entry":
         
         # Deletion controls
         st.markdown("#### Delete an Entry")
-        col_del1, col_del2 = st.columns([1, 2])
+        max_idx = len(st.session_state.emissions_data) - 1
+        
+        # Database Management Controls
+        col_del1, col_del2, col_del3 = st.columns([1, 1, 2])
         with col_del1:
-            entry_to_delete = st.number_input(
-                "Row Index to Delete", 
-                min_value=0, 
-                step=1, 
-                help="Enter the exact index number from the far-left column of the table."
-            )
+            start_idx = st.number_input("From Row", min_value=0, max_value=max_idx, value=0, step=1)
         with col_del2:
+            end_idx = st.number_input("To Row", min_value=0, max_value=max_idx, value=0, step=1)
+        with col_del3:
             st.markdown("<br>", unsafe_allow_html=True) # alignment spacer
-            if st.button("🗑️ Delete Row", type="primary"):
-                if delete_emission_entry(entry_to_delete):
-                    st.success(f"Row {entry_to_delete} purged from database!")
+            if st.button("🗑️ Delete Selected Range", type="primary", use_container_width=True):
+                if start_idx > end_idx:
+                    st.error("Basic math failure: 'From' index cannot be greater than 'To' index.")
+                else:
+                    df = st.session_state.emissions_data
+                    indices_to_drop = list(range(start_idx, end_idx + 1))
+                    
+                    # Drop the specific rows and re-index so numbers stay sequential
+                    st.session_state.emissions_data = df.drop(indices_to_drop, errors='ignore').reset_index(drop=True)
+                    save_emissions_data()
+                    
+                    st.success(f"Purged rows {start_idx} through {end_idx}.")
                     st.rerun()
     else:
         st.info("Database is currently empty. Add entries above or upload a CSV.")
@@ -1121,5 +1172,3 @@ elif st.session_state.active_page == "AI Insights":
                         st.markdown(f"<div class='stCard'>{result_str}</div>", unsafe_allow_html=True)
                     except Exception as e:
                         st.error(f"Error: {str(e)}. Please check your API key and try again.")
-    
-# About page removed - focusing on AI features only
