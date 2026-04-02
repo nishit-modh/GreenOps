@@ -1,5 +1,5 @@
 """
-Emission factors database for YourCarbonFootprint application.
+Emission factors database for GreenOps application.
 Based on DEFRA/IPCC datasets for common emission sources.
 """
 

@@ -1,5 +1,5 @@
 """
-Report generator for YourCarbonFootprint application.
+Report generator for GreenOps application.
 Generates PDF reports and visualizations.
 """
 

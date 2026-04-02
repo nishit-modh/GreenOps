@@ -1,5 +1,5 @@
 """
-Configuration settings for YourCarbonFootprint application.
+Configuration settings for GreenOps application.
 """
 
 import os
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Application settings
-APP_NAME = "YourCarbonFootprint"
+APP_NAME = "GreenOps"
 APP_VERSION = "1.0.0"
 APP_DESCRIPTION = "A lightweight, multilingual carbon accounting and reporting tool for SMEs in Asia"
 APP_AUTHOR = "Sonu Kumar"

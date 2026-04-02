@@ -1,4 +1,4 @@
-# YourCarbonFootprint - AI Agents powered Carbon Accounting Tool
+# GreenOps - AI Agents powered Carbon Accounting Tool
 
 ![Carbon Footprint](https://img.shields.io/badge/Carbon-Footprint-green)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
@@ -41,7 +41,7 @@ A lightweight, multilingual carbon accounting and reporting tool for SMEs in Asi
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                       YourCarbonFootprint App                           │
+│                       GreenOps App                           │
 └───────────────────────────────────┬─────────────────────────────────────┘
                                     │
                 ┌─────────────────────────────────────┐
@@ -142,7 +142,7 @@ The enhanced enterprise-grade data entry form includes:
 
 ## 🤖 AI Agents
 
-YourCarbonFootprint integrates five specialized AI agents using CrewAI and Groq LLM:
+GreenOps integrates five specialized AI agents using CrewAI and Groq LLM:
 
 1. **Data Entry Assistant**: Helps classify emissions and validate data entries
 2. **Report Summary Generator**: Creates human-readable summaries from emissions data

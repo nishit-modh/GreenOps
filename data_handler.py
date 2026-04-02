@@ -1,5 +1,5 @@
 """
-Data handler for YourCarbonFootprint application.
+Data handler for GreenOps application.
 Manages data import, export, and processing.
 """
 
