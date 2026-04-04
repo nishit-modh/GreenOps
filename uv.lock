@@ -792,6 +792,12 @@ wheels = [
 ]
 
 [[package]]
+name = "fpdf"
+version = "1.7.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/37/c6/608a9e6c172bf9124aa687ec8b9f0e8e5d697d59a5f4fad0e2d5ec2a7556/fpdf-1.7.2.tar.gz", hash = "sha256:125840783289e7d12552b1e86ab692c37322e7a65b96a99e0ea86cca041b6779", size = 39504, upload-time = "2015-01-21T00:07:47.493Z" }
+
+[[package]]
 name = "frozenlist"
 version = "1.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1001,6 +1007,42 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f3/fd/d05a4b7acd0154ed758797f0a43b4c0962a843bedfe980115e842c5b2d08/greenlet-3.3.2-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:1fb39a11ee2e4d94be9a76671482be9398560955c9e568550de0224e41104727", size = 1618857, upload-time = "2026-02-20T20:49:37.309Z" },
     { url = "https://files.pythonhosted.org/packages/6f/e1/50ee92a5db521de8f35075b5eff060dd43d39ebd46c2181a2042f7070385/greenlet-3.3.2-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:20154044d9085151bc309e7689d6f7ba10027f8f5a8c0676ad398b951913d89e", size = 1680010, upload-time = "2026-02-20T20:21:13.427Z" },
     { url = "https://files.pythonhosted.org/packages/29/4b/45d90626aef8e65336bed690106d1382f7a43665e2249017e9527df8823b/greenlet-3.3.2-cp314-cp314t-win_amd64.whl", hash = "sha256:c04c5e06ec3e022cbfe2cd4a846e1d4e50087444f875ff6d2c2ad8445495cf1a", size = 237086, upload-time = "2026-02-20T20:20:45.786Z" },
+]
+
+[[package]]
+name = "greenops"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "crewai", extra = ["litellm"] },
+    { name = "crewai-tools" },
+    { name = "fpdf" },
+    { name = "langchain" },
+    { name = "langchain-community" },
+    { name = "langchain-core" },
+    { name = "langchain-google-genai" },
+    { name = "langchain-groq" },
+    { name = "plotly" },
+    { name = "python-dotenv" },
+    { name = "streamlit" },
+    { name = "xlsxwriter" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "crewai", specifier = ">=0.140.0" },
+    { name = "crewai", extras = ["litellm"], specifier = ">=0.140.0" },
+    { name = "crewai-tools", specifier = ">=0.49.0" },
+    { name = "fpdf", specifier = ">=1.7.2" },
+    { name = "langchain", specifier = ">=0.3.26" },
+    { name = "langchain-community", specifier = ">=0.3.27" },
+    { name = "langchain-core", specifier = ">=0.3.68" },
+    { name = "langchain-google-genai", specifier = ">=2.1.6" },
+    { name = "langchain-groq", specifier = ">=0.3.5" },
+    { name = "plotly", specifier = ">=6.2.0" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
+    { name = "streamlit", specifier = ">=1.46.1" },
+    { name = "xlsxwriter", specifier = ">=3.2.5" },
 ]
 
 [[package]]
@@ -4274,40 +4316,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/e1/19/3774d162f6732d1cfb0b47b4140a942a35ca82bb19b6db1f80e9e7bdc8f8/yarl-1.23.0-cp314-cp314t-win_amd64.whl", hash = "sha256:4503053d296bc6e4cbd1fad61cf3b6e33b939886c4f249ba7c78b602214fabe2", size = 97610, upload-time = "2026-03-01T22:07:45.773Z" },
     { url = "https://files.pythonhosted.org/packages/51/47/3fa2286c3cb162c71cdb34c4224d5745a1ceceb391b2bd9b19b668a8d724/yarl-1.23.0-cp314-cp314t-win_arm64.whl", hash = "sha256:44bb7bef4ea409384e3f8bc36c063d77ea1b8d4a5b2706956c0d6695f07dcc25", size = 86041, upload-time = "2026-03-01T22:07:49.026Z" },
     { url = "https://files.pythonhosted.org/packages/69/68/c8739671f5699c7dc470580a4f821ef37c32c4cb0b047ce223a7f115757f/yarl-1.23.0-py3-none-any.whl", hash = "sha256:a2df6afe50dea8ae15fa34c9f824a3ee958d785fd5d089063d960bae1daa0a3f", size = 48288, upload-time = "2026-03-01T22:07:51.388Z" },
-]
-
-[[package]]
-name = "GreenOps"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "crewai", extra = ["litellm"] },
-    { name = "crewai-tools" },
-    { name = "langchain" },
-    { name = "langchain-community" },
-    { name = "langchain-core" },
-    { name = "langchain-google-genai" },
-    { name = "langchain-groq" },
-    { name = "plotly" },
-    { name = "python-dotenv" },
-    { name = "streamlit" },
-    { name = "xlsxwriter" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "crewai", specifier = ">=0.140.0" },
-    { name = "crewai", extras = ["litellm"], specifier = ">=0.140.0" },
-    { name = "crewai-tools", specifier = ">=0.49.0" },
-    { name = "langchain", specifier = ">=0.3.26" },
-    { name = "langchain-community", specifier = ">=0.3.27" },
-    { name = "langchain-core", specifier = ">=0.3.68" },
-    { name = "langchain-google-genai", specifier = ">=2.1.6" },
-    { name = "langchain-groq", specifier = ">=0.3.5" },
-    { name = "plotly", specifier = ">=6.2.0" },
-    { name = "python-dotenv", specifier = ">=1.1.1" },
-    { name = "streamlit", specifier = ">=1.46.1" },
-    { name = "xlsxwriter", specifier = ">=3.2.5" },
 ]
 
 [[package]]
