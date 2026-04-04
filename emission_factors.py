@@ -28,10 +28,15 @@ EMISSION_FACTORS = {
     # Scope 2 - Indirect emissions from purchased energy
     "Electricity": {
         "India Grid": {"factor": 0.82, "unit": "kWh"},
-        "Indonesia Grid": {"factor": 0.87, "unit": "kWh"},
+        "US Grid Average": {"factor": 0.38, "unit": "kWh"},
+        "EU Grid Average": {"factor": 0.23, "unit": "kWh"},
+        "UK Grid": {"factor": 0.21, "unit": "kWh"},
+        "China Grid": {"factor": 0.58, "unit": "kWh"},
         "Japan Grid": {"factor": 0.47, "unit": "kWh"},
-        "Solar Power": {"factor": 0.041, "unit": "kWh"},
-        "Wind Power": {"factor": 0.011, "unit": "kWh"},
+        "Indonesia Grid": {"factor": 0.87, "unit": "kWh"},
+        "Global Average Grid": {"factor": 0.45, "unit": "kWh"},
+        "Solar Power": {"factor": 0.0, "unit": "kWh"},
+        "Wind Power": {"factor": 0.0, "unit": "kWh"},
     },
     "Steam": {
         "Purchased Steam": {"factor": 0.19, "unit": "kg"},
