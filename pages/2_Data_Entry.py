@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
-import utils
-import emission_factors as ef  
+import emission_factors as ef
+import data_store as ds
+import ui_components as ui  
 
-utils.init_session_state()
-utils.local_css()
+ds.init_session_state()
+ui.load_css()
+st.set_page_config(page_title="GreenOps | ESG Analytics", page_icon="🌱", layout="wide")
 
 st.markdown("<h1>Add New Sustainability Entry</h1>", unsafe_allow_html=True)
 
@@ -76,7 +78,7 @@ with tabs[0]:
         if e_qty <= 0:
             st.error("❌ Quantity must be greater than 0. Ghost entries are not allowed.")
         else:
-            if utils.add_emission_entry(e_date, defaults["business_unit"], "Energy Consumption", e_cat, e_activity, defaults["country"], defaults["facility"], defaults["responsible_person"], e_qty, e_unit, e_factor):
+            if ds.add_emission_entry(e_date, defaults["business_unit"], "Energy Consumption", e_cat, e_activity, defaults["country"], defaults["facility"], defaults["responsible_person"], e_qty, e_unit, e_factor):
                 st.success(f"✅ Logged {e_qty} {e_unit} of {e_activity}!")
 
 # ── Tab: Waste ──
@@ -98,7 +100,7 @@ with tabs[1]:
         if w_qty <= 0:
             st.error("❌ Quantity must be greater than 0. Ghost entries are not allowed.")
         else:
-            if utils.add_emission_entry(w_date, defaults["business_unit"], "Waste Management", w_cat, w_activity, defaults["country"], defaults["facility"], defaults["responsible_person"], w_qty, w_unit, w_factor):
+            if ds.add_emission_entry(w_date, defaults["business_unit"], "Waste Management", w_cat, w_activity, defaults["country"], defaults["facility"], defaults["responsible_person"], w_qty, w_unit, w_factor):
                 st.success(f"Logged {w_qty} {w_unit} of {w_activity} waste!")
 
 # ── Tab: Carbon & Travel ──
@@ -129,7 +131,7 @@ with tabs[2]:
         if c_qty <= 0:
             st.error("❌ Quantity must be greater than 0. Ghost entries are not allowed.")
         else:
-            if utils.add_emission_entry(c_date, defaults["business_unit"], "Carbon Emissions", c_cat, c_activity, defaults["country"], defaults["facility"], defaults["responsible_person"], c_qty, c_unit, c_factor):
+            if ds.add_emission_entry(c_date, defaults["business_unit"], "Carbon Emissions", c_cat, c_activity, defaults["country"], defaults["facility"], defaults["responsible_person"], c_qty, c_unit, c_factor):
                 st.success(f"Logged {c_qty} {c_unit} for {c_activity}!")
 
 # ── Tab: CSV Upload ──
@@ -139,33 +141,66 @@ with tabs[3]:
     uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
     if uploaded_file and st.button("Process CSV", type="primary"):
         with st.spinner("Hashing rows and verifying duplicates..."):
-            utils.process_csv(uploaded_file)
+            ds.process_csv(uploaded_file)
 
 # ── Data Viewer & Safe Delete ──
 st.divider()
-st.markdown("### Logged Database Entries")
+st.markdown("### 🗄️ Manage Database Entries")
 
 if len(st.session_state.emissions_data) == 0:
-    st.info("Database is empty. Add entries above.")
+    st.info("Database is empty. Add entries above to begin.")
 else:
-    st.dataframe(st.session_state.emissions_data, use_container_width=True)
-
-    st.markdown("#### Surgical Range Delete")
-    max_idx = len(st.session_state.emissions_data) - 1
-    col_del1, col_del2, _ = st.columns([1, 1, 2])
-    with col_del1: start_idx = st.number_input("From Row", min_value=0, max_value=max_idx, value=0)
-    with col_del2: end_idx = st.number_input("To Row", min_value=0, max_value=max_idx, value=0)
-
-    rows_to_delete = list(range(int(start_idx), int(end_idx) + 1))
-    confirm = st.checkbox(f"✅ I confirm I want to permanently delete **{len(rows_to_delete)} row(s)**. This cannot be undone.")
-
-    if st.button("🗑️ Delete Selected Range", type="primary", use_container_width=True):
-        if not confirm:
-            st.warning("Tick the confirmation checkbox above to proceed.")
-        elif start_idx > end_idx:
-            st.error("'From Row' cannot be greater than 'To Row'.")
-        else:
-            st.session_state.emissions_data = st.session_state.emissions_data.drop(rows_to_delete, errors="ignore").reset_index(drop=True)
-            utils.save_emissions_data()
-            st.success(f"Deleted rows {start_idx} through {end_idx}.")
+    # 1. Create a working copy and insert a temporary checkbox column
+    edit_df = st.session_state.emissions_data.copy()
+    edit_df.insert(0, "Select for Deletion", False)
+    
+    st.info("💡 **How to delete:** Tick the boxes in the 'Select for Deletion' column, then click the red confirmation button.")
+    
+    # 2. Render the interactive editor
+    # We disable editing on all original columns to prevent accidental data corruption
+    edited_df = st.data_editor(
+        edit_df,
+        hide_index=True,
+        use_container_width=True,
+        disabled=st.session_state.emissions_data.columns.tolist(), # Locks actual data
+        column_config={
+            "Select for Deletion": st.column_config.CheckboxColumn(required=True),
+            "id": None # Hides the ugly UUID string from the user interface
+        }
+    )
+    
+    # 3. Process Deletions safely via UUID mapping
+    rows_to_delete = edited_df[edited_df["Select for Deletion"] == True]
+    
+    if not rows_to_delete.empty:
+        st.error(f"⚠️ You have selected {len(rows_to_delete)} row(s) for permanent deletion. This cannot be undone.")
+        
+        if st.button("🗑️ Confirm Deletion", type="primary", use_container_width=True):
+            # Keep only the rows where the UUID is NOT in the deletion list
+            target_ids = rows_to_delete["id"].tolist()
+            remaining_data = st.session_state.emissions_data[~st.session_state.emissions_data["id"].isin(target_ids)]
+            
+            # Save the pristine remaining data back to state and disk
+            st.session_state.emissions_data = remaining_data.reset_index(drop=True)
+            
+            import data_store as ds # Ensure this matches your new module name
+            ds.save_emissions_data()
+            
+            st.success(f"✅ Successfully deleted {len(rows_to_delete)} row(s).")
             st.rerun()
+
+# ... [Existing UUID deletion logic] ...
+    
+st.divider()
+with st.expander("🚨 Danger Zone (System Administration)"):
+    st.warning("The actions below bypass individual row selection and are strictly irreversible. Use only in case of catastrophic data corruption or testing resets.")
+    
+    if st.button("💀 Purge Entire Database", type="primary", use_container_width=True):
+        # Re-initialize an empty DataFrame retaining the exact schema
+        st.session_state.emissions_data = pd.DataFrame(columns=st.session_state.emissions_data.columns)
+        
+        import data_store as ds 
+        ds.save_emissions_data()
+        
+        st.success("Database has been completely purged.")
+        st.rerun()

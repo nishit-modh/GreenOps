@@ -1,10 +1,12 @@
 import streamlit as st
 import json
 import os
-import utils
+import data_store as ds
+import ui_components as ui
 
-utils.init_session_state()
-utils.local_css()
+ds.init_session_state()
+ui.load_css()
+st.set_page_config(page_title="GreenOps | ESG Analytics", page_icon="🌱", layout="wide")
 
 st.markdown("<h1>System Configuration</h1>", unsafe_allow_html=True)
 cs = st.session_state.company_settings
@@ -15,7 +17,7 @@ st.info("These settings act as global defaults for the AI Insights engine and yo
 with st.form("company_info_form"):
     col1, col2 = st.columns(2)
     with col1:
-        company_name = st.text_input("Company Name", value=cs.get("company_name", ""))
+        company_name = st.text_input("Company Name", value=cs.get("company_name", ""),help="*Please use English/Latin characters for PDF report compatibility.")
         industry = st.text_input("Industry Sector", value=cs.get("industry", ""))
         location = st.text_input("Primary Facility Location (Country)", value=cs.get("location", ""))
     with col2:

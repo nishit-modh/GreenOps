@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 import os
-import utils
+import data_store as ds
+import ui_components as ui
 
-utils.init_session_state()
-utils.local_css()
+ds.init_session_state()
+ui.load_css()
+st.set_page_config(page_title="GreenOps | ESG Analytics", page_icon="🌱", layout="wide")
 
 st.markdown("<h1>🤖 AI Insights & Advisory</h1>", unsafe_allow_html=True)
 
@@ -14,8 +16,12 @@ if not os.getenv("GROQ_API_KEY"):
 
 from ai_agents import GreenOpsAgents # Assumes you updated the class name as discussed
 
-if "ai_agents" not in st.session_state:
-    st.session_state.ai_agents = GreenOpsAgents()
+@st.cache_resource
+def load_agents():
+    return GreenOpsAgents()
+
+# Instantiate it once globally
+agents = load_agents()
 
 cs = st.session_state.get("company_settings", {})
 c_location = cs.get("location", "Not Specified")
@@ -51,8 +57,9 @@ with ai_tabs[0]:
     if st.button("Get Assistance", type="primary") and data_description:
         with st.spinner("Analysing..."):
             try:
-                result = st.session_state.ai_agents.run_data_entry_crew(data_description)
-                st.markdown(f"<div class='stCard'>{result}</div>", unsafe_allow_html=True)
+                result = agents.run_data_entry_crew(data_description)
+                with st.container(border=True):
+                    st.markdown(result)
             except Exception as e: st.error(f"API Error: {e}")
 
 with ai_tabs[1]:
@@ -61,8 +68,9 @@ with ai_tabs[1]:
     elif st.button("Generate Summary", type="primary"):
         with st.spinner("Generating..."):
             try:
-                result = st.session_state.ai_agents.run_report_summary_crew(utils.compress_data(filtered_df))
-                st.markdown(f"<div class='stCard'>{result}</div>", unsafe_allow_html=True)
+                result = agents.run_report_summary_crew(ds.compress_data(filtered_df))
+                with st.container(border=True):
+                    st.markdown(result)
             except Exception as e: st.error(f"API Error: {e}")
 
 with ai_tabs[2]:
@@ -74,8 +82,9 @@ with ai_tabs[2]:
         if st.button("Get Recommendations", type="primary"):
             with st.spinner("Finding programs..."):
                 try:
-                    result = st.session_state.ai_agents.run_offset_advice_crew(total, c_location, c_industry)
-                    st.markdown(f"<div class='stCard'>{result}</div>", unsafe_allow_html=True)
+                    result = agents.run_offset_advice_crew(total, c_location, c_industry)
+                    with st.container(border=True):
+                        st.markdown(result)
                 except Exception as e: st.error(f"API Error: {e}")
 
 with ai_tabs[3]:
@@ -84,8 +93,9 @@ with ai_tabs[3]:
         if c_exports != "None":
             with st.spinner("Analysing trade laws..."):
                 try:
-                    result = st.session_state.ai_agents.run_regulation_check_crew(c_location, c_industry, c_exports)
-                    st.markdown(f"<div class='stCard'>{result}</div>", unsafe_allow_html=True)
+                    result = agents.run_regulation_check_crew(c_location, c_industry, c_exports)
+                    with st.container(border=True):
+                        st.markdown(result)
                 except Exception as e: st.error(f"API Error: {e}")
         else:
             st.warning("Configure Export Markets in Settings first.")
@@ -96,6 +106,7 @@ with ai_tabs[4]:
     elif st.button("Generate Optimisation Strategy", type="primary"):
         with st.spinner("Analysing bottlenecks..."):
             try:
-                result = st.session_state.ai_agents.run_optimization_crew(utils.compress_data(filtered_df))
-                st.markdown(f"<div class='stCard'>{result}</div>", unsafe_allow_html=True)
+                result = agents.run_optimization_crew(ds.compress_data(filtered_df))
+                with st.container(border=True):
+                    st.markdown(result)
             except Exception as e: st.error(f"API Error: {e}")
