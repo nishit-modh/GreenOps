@@ -26,7 +26,7 @@ def generate_esg_pdf(df, cs, date_range_str):
         return str(text)
 
     # 2. BRANDED HEADER
-    pdf.set_fill_color(16, 185, 129) # GreenOps Emerald
+    pdf.set_fill_color(16, 45, 29) # GreenOps Emerald
     pdf.rect(0, 0, 210, 25, 'F')
     pdf.set_y(8)
     pdf.set_text_color(255, 255, 255)
@@ -75,7 +75,7 @@ def generate_esg_pdf(df, cs, date_range_str):
     # 4. EXECUTIVE SUMMARY
     total_emissions = df['emissions_kgCO2e'].sum()
     pdf.set_font(base_font, "B", 12)
-    pdf.set_fill_color(241, 245, 249) # Light Slate
+    pdf.set_fill_color(241, 255, 249) # Light Slate
     pdf.cell(0, 8, " 1. Executive Footprint Summary", border=1, fill=True, ln=1)
     pdf.set_font(base_font, "", 11)
     pdf.cell(0, 8, f" Total Validated Carbon Footprint: {total_emissions:,.2f} kgCO2e", border=1, ln=1)

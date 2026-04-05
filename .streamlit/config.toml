@@ -7,7 +7,6 @@ textColor="#0F172A"
 font="sans serif"
 
 [server]
-pythonVersion = "3.12"
 headless = true
 enableCORS = false
 enableXsrfProtection = false

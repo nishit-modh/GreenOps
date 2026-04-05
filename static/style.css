@@ -1,137 +1,691 @@
-/* --- 1. BASE APP & BACKGROUND --- */
-/* Kill the default header/footer */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
+/* ==========================================================================
+   GreenOps Design System — v3.2
+   Palette  : Deep Forest #0F2117 · Near-Black #111 · White #FFF · Amber #C2410C
+   Scope    : Full app — homepage + all sub-pages
+   ========================================================================== */
 
-/* Inject a subtle off-white/gray background to break the "plain white" stock look */
+/* ─── 1. TOKENS ─────────────────────────────────────────────────────────── */
+:root {
+  --go-bg            : #ffffff;
+  --go-bg-subtle     : #f4f8f3;
+  --go-bg-dim        : #edebe2;
+  --go-text          : #102d1d;
+  --go-text-mid      : #777f87;
+  --go-text-muted    : #626670;
+  --go-forest        : #102d1d;
+  --go-amber         : #C2410C;
+  --go-amber-hover   : #9A3412;
+  --go-green-bright  : #0edb5a;
+  --go-green-dim     : #71d89c;
+  --go-border        : #E8E8E6;
+  --go-border-strong : #D1D1CE;
+  --go-hero-bg       : #111111;
+  --go-radius        : 3px;
+  --go-cx            : 2.5rem;
+  --go-font          : 'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+
+/* ─── STREAMLIT NATIVE HEADER OVERRIDES ─── */
+#MainMenu, footer { display: none !important; } /* display: none physically removes the 4-5rem dead space */
+[data-testid="stDecoration"] { display: none !important; }
+
+/* Universal White Header for all pages */
+[data-testid="stHeader"] {
+  background-color: var(--go-bg) !important;
+  border-bottom: 1px solid var(--go-border) !important;
+}
+[data-testid="stHeader"] button, 
+[data-testid="stHeader"] button * {
+  color: var(--go-text) !important;
+  fill: var(--go-text) !important;
+  stroke: var(--go-text) !important;
+}
+
+/* Let Streamlit calculate the natural scroll height natively */
+[data-testid="stMainBlockContainer"] {
+  padding: 5rem var(--go-cx) 2rem var(--go-cx) !important; 
+  /* Removed min-height and margin-bottom overrides that corrupt native scroll math */
+}
+
+/* Sidebar collapsed toggle — always visible on any background */
+[data-testid="stSidebarCollapsedControl"] {
+  background-color: var(--go-forest) !important;
+  border-radius: 0 var(--go-radius) var(--go-radius) 0 !important;
+  z-index: 99999 !important;
+}
+[data-testid="stSidebarCollapsedControl"] button,
+[data-testid="stSidebarCollapsedControl"] svg {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+}
+
 .stApp {
-    background-color: #F8FAFC; 
-}
-html, body, [class*="css"] { 
-    font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif; 
-    color: #1E293B;
-}
-            
-/* --- THE SLEDGEHAMMER FIX --- */
-/* Force all text to stay dark regardless of system theme */
-.stApp, .stApp p, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp span, .stApp label {
-    color: #1A1A1A !important;
+  background-color: var(--go-bg);
+  font-family: var(--go-font);
+  color: var(--go-text);
 }
 
-/* Keep metric values and labels consistent */
-.metric-value { color: #0F172A !important; }
-.metric-label { color: #64748B !important; }
-
-/* Ensure sidebar text stays visible */
-[data-testid="stSidebarNav"] a span {
-    color: #475569 !important;
+h1,h2,h3,h4,h5 {
+  font-family: var(--go-font);
+  color: var(--go-text);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin: 0;
 }
+p { margin: 0; }
+h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
 
-/* Active sidebar text should be green */
-[data-testid="stSidebarNav"] a[aria-current="page"] span {
-    color: #166534 !important;
-}
-
-/* Kill the annoying anchor link chain icons on all headers */
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .stMarkdown a.anchor-link {
-    display: none !important;
-}
-
-/* Inject a subtle off-white/gray background */
-.stApp {
-    background-color: #F8FAFC; 
-}
-
-/* --- 2. SIDEBAR OVERHAUL --- */
-/* Style the sidebar container */
+/* ─── 3. SIDEBAR ─────────────────────────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background-color: #FFFFFF !important;
-    border-right: 1px solid #E2E8F0;
+  background-color: var(--go-forest) !important;
+  border-right: none !important;
+}
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] div { color: #7A9E87 !important; }
+
+[data-testid="stSidebarContent"]::before {
+  content: 'GreenOps';
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #FFFFFF !important;
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 0.5rem;
 }
 
-/* Target the native Streamlit page navigation links */
-[data-testid="stSidebarNav"] {
-    padding-top: 1rem;
+[data-testid="stSidebarNav"] a,
+[data-testid="stSidebarNavLink"] {
+  color: #7A9E87 !important;
+  padding: 0.5rem 1.25rem;
+  margin: 2px 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  display: block;
+  transition: color 0.15s, background 0.15s;
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--go-radius) var(--go-radius) 0;
 }
-[data-testid="stSidebarNav"] ul {
-    gap: 0.5rem;
+[data-testid="stSidebarNav"] a span,
+[data-testid="stSidebarNavLink"] span { color: inherit !important; }
+[data-testid="stSidebarNav"] a:hover,
+[data-testid="stSidebarNavLink"]:hover {
+  background: rgba(255,255,255,0.06) !important;
+  color: #FFFFFF !important;
 }
-[data-testid="stSidebarNav"] a {
-    border-radius: 8px;
-    margin: 0 1rem;
-    padding: 0.5rem 1rem;
-    color: #475569 !important;
-    transition: all 0.2s ease;
-}
-/* Hover effect for sidebar links */
-[data-testid="stSidebarNav"] a:hover {
-    background-color: #F1F5F9 !important;
-    color: #0F172A !important;
-}
-/* Active page highlight */
-[data-testid="stSidebarNav"] a[aria-current="page"] {
-    background-color: #E6F4EA !important; /* Soft Green */
-    color: #166534 !important; /* Dark Green Text */
-    font-weight: 600;
-    border-left: 4px solid #166534;
-    border-radius: 4px 8px 8px 4px;
-}
-
-/* --- 3. TYPOGRAPHY --- */
-h1, h2, h3, h4, h5, h6 { 
-    color: #0F172A; 
-    font-weight: 700; 
-    letter-spacing: -0.02em;
-}
-h1 { font-size: 2.2rem; padding-bottom: 1rem; border-bottom: 1px solid #E2E8F0; margin-bottom: 2rem;}
-
-/* --- 4. CARDS & ELEVATION --- */    
-/* Custom Metric Cards */
-.metric-card {
-    background-color: #FFFFFF; 
-    border-radius: 12px; 
-    padding: 1.5rem;
-    text-align: center; 
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border-bottom: 4px solid #10B981; /* Emerald Green Bottom border */
-    margin-bottom: 1.5rem;
-    border-top: 1px solid #E2E8F0;
-    border-left: 1px solid #E2E8F0;
-    border-right: 1px solid #E2E8F0;
-}
-.metric-value { font-size: 28px; font-weight: 800; margin: 0.5rem 0; color: #0F172A; }
-.metric-label { font-size: 13px; color: #64748B; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }
-
-/* --- 5. BUTTONS & INPUTS --- */
-.stButton>button {
-    background-color: #10B981; /* Primary Emerald */
-    color: white; 
-    border-radius: 8px;
-    border: none; 
-    padding: 0.5rem 1rem; 
-    font-weight: 600; 
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-.stButton>button:hover { 
-    background-color: #059669; 
-    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); 
+[data-testid="stSidebarNav"] a[aria-current="page"],
+[data-testid="stSidebarNavLink"][aria-current="page"] {
+  background: rgba(255,255,255,0.09) !important;
+  color: #FFFFFF !important;
+  border-left: 2px solid var(--go-amber);
 }
 
-/* Tabs styling to make them look less 'stock' */
-.stTabs [data-baseweb="tab-list"] { gap: 8px; border-bottom: 2px solid #E2E8F0; padding-bottom: 0px; }
-.stTabs [data-baseweb="tab"] { 
-    background-color: transparent; 
-    border-radius: 8px 8px 0px 0px; 
-    padding: 12px 16px; 
-    font-weight: 600; 
-    color: #64748B;
+/* ─── 4. HOMEPAGE HERO (WIDE FLOATING CARD) ──────────────────────────────── */
+.go-hero {
+  background: var(--go-hero-bg) !important;
+  padding: 5rem 3rem 4.5rem; 
+  margin: 0 auto 4rem auto !important; 
+  width: 100%; 
+  max-width: none; 
+  border-radius: 20px; 
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
 }
-.stTabs [aria-selected="true"] { 
-    background-color: transparent !important; 
-    color: #10B981 !important; 
-    border-bottom: 3px solid #10B981;
+.go-inner {
+  max-width: 1300px; 
+  margin: 0 auto;
+  padding: 0;
+}
+.go-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2.25rem;
+}
+.go-status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--go-green-dim);
+  animation: go-pulse 2.2s ease-in-out infinite;
+}
+@keyframes go-pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.go-status-label {
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--go-green-dim);
+}
+.go-status-sep {
+  width: 1px; height: 12px;
+  background: rgba(255,255,255,.15);
+}
+.go-status-date {
+  font-size: .72rem; letter-spacing: .07em;
+  color: #4B5563; font-variant-numeric: tabular-nums;
+}
+.go-hero-eyebrow {
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: #4B5563; margin-bottom: .6rem;
+}
+.go-hero-h1 {
+  font-size: clamp(2.6rem,5.5vw,4.25rem);
+  font-weight: 700; color: #FFFFFF !important;
+  letter-spacing: -.04em; line-height: 1.04;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+.go-hero-h1 em { font-style: normal; color: var(--go-green-bright); }
+.go-hero-sub {
+  font-size: .975rem; color: #6B7280;
+  max-width: 650px; line-height: 1.7;
+  margin-bottom: 2.75rem; font-weight: 400;
+}
+.go-hero-actions {
+  display: flex; align-items: center;
+  gap: .75rem; margin-bottom: 3rem;
+}
+.go-btn-amber {
+  display: inline-block;
+  background: var(--go-amber); color: #FFFFFF !important;
+  font-size: .775rem; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+  padding: .65rem 1.35rem; border-radius: var(--go-radius);
+  text-decoration: none !important; transition: background .15s;
+}
+.go-btn-amber:hover { background: var(--go-amber-hover); }
+.go-btn-ghost {
+  display: inline-block; background: transparent;
+  color: #6B7280 !important; font-size: .775rem; font-weight: 500;
+  padding: .65rem 1.35rem;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--go-radius);
+  text-decoration: none !important;
+  transition: border-color .15s, color .15s;
+}
+.go-btn-ghost:hover { border-color: rgba(255,255,255,.28); color: #FFF !important; }
+.go-hero-rule {
+  width: 100%; height: 1px;
+  background: rgba(255,255,255,.09); margin-bottom: 2rem;
+}
+.go-stats-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--go-radius); overflow: hidden;
+}
+.go-stat {
+  padding: 1.25rem 1.5rem;
+  border-right: 1px solid rgba(255,255,255,.09);
+}
+.go-stat:last-child { border-right: none; }
+.go-stat-label {
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: #4B5563; margin-bottom: .5rem;
+}
+.go-stat-value {
+  font-size: 1.65rem; font-weight: 700; color: #FFFFFF;
+  letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.go-stat-value.go-empty { color: #2D3748; }
+.go-stat-sub { font-size: .65rem; color: #4B5563; margin-top: .3rem; }
+
+/* ─── 5. HOMEPAGE SECTIONS ───────────────────────────────────────────────── */
+.go-section {
+  padding: 4.5rem 0;
+  margin-left: calc(-1 * var(--go-cx));
+  margin-right: calc(-1 * var(--go-cx));
+}
+.go-section-alt { background: var(--go-bg-subtle); }
+.go-section-label {
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--go-text-muted);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 3rem;
+}
+.go-section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--go-border);
+}
+.go-caps {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border-top: 2px solid var(--go-text); padding-top: 1.75rem;
+}
+.go-cap { padding-right: 2rem; border-right: 1px solid var(--go-border); }
+.go-cap:last-child  { border-right: none; padding-right: 0; }
+.go-cap:not(:first-child) { padding-left: 2rem; }
+.go-cap-num {
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: .1em; color: var(--go-amber);
+  margin-bottom: 1.1rem; font-variant-numeric: tabular-nums;
+}
+.go-cap-title {
+  font-size: .925rem; font-weight: 600; color: var(--go-text);
+  margin-bottom: .6rem; line-height: 1.3; letter-spacing: -.015em;
+}
+.go-cap-desc { font-size: .8rem; color: var(--go-text-mid); line-height: 1.65; }
+
+.go-kpi-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border: 1px solid var(--go-border);
+  background: var(--go-bg); margin-top: 2rem;
+}
+.go-kpi {
+  padding: 1.5rem 1.5rem 1.35rem;
+  border-right: 1px solid var(--go-border);
+}
+.go-kpi:last-child { border-right: none; }
+.go-kpi-label {
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--go-text-muted); margin-bottom: .6rem;
+}
+.go-kpi-value {
+  font-size: 1.85rem; font-weight: 700; color: var(--go-text);
+  letter-spacing: -.035em; line-height: 1; font-variant-numeric: tabular-nums;
+}
+.go-kpi-unit {
+  font-size: .65rem; color: var(--go-text-muted);
+  margin-top: .35rem; font-weight: 500; letter-spacing: .04em;
+}
+.go-kpi-accent { border-left: 2px solid var(--go-amber); }
+.go-snapshot-empty {
+  border: 1px dashed var(--go-border-strong);
+  padding: 2.5rem; margin-top: 2rem;
+  text-align: center; border-radius: var(--go-radius);
+}
+.go-snapshot-empty-title {
+  font-size: .875rem; font-weight: 600;
+  color: var(--go-text-mid); margin-bottom: .4rem;
+}
+.go-snapshot-empty-sub {
+  font-size: .775rem; color: var(--go-text-muted); line-height: 1.6;
+}
+.go-steps-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  position: relative; margin-top: 2rem;
+}
+.go-steps-grid::before {
+  content: ''; position: absolute;
+  top: .95rem; left: 12.5%; right: 12.5%;
+  height: 1px; background: var(--go-border);
+}
+.go-step { text-align: center; position: relative; padding: 0 1rem; }
+.go-step-num {
+  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  background: var(--go-text); color: #FFFFFF;
+  font-size: .65rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+}
+.go-step-title {
+  font-size: .8rem; font-weight: 600; color: var(--go-text);
+  margin-bottom: .35rem; letter-spacing: -.01em;
+}
+.go-step-desc { font-size: .725rem; color: var(--go-text-muted); line-height: 1.55; }
+
+/* ─── 6. UNIVERSAL FOOTER ────────────────────────────────────────────────── */
+.go-footer {
+  background: var(--go-forest); 
+  padding: 1.1rem 0;
+  width: 100%; 
+  margin-top: 4rem; 
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: block;
+}
+.go-footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.go-footer-brand {
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: #FFFFFF;
+}
+.go-footer-meta { font-size: .675rem; color: #789686; letter-spacing: .02em; }
+.go-footer-divider {
+  width: 1px; height: 10px; background: rgba(255,255,255,.1);
+  display: inline-block; margin: 0 .75rem; vertical-align: middle;
 }
 
-/* Clean up inputs */
-[data-baseweb="input"], [data-baseweb="select"] { border-radius: 8px; }
+/* ─── 7. SUB-PAGE HEADER ─────────────────────────────────────────────────── */
+.go-page-header {
+  padding-top: 2.75rem;
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--go-text);
+}
+.go-page-eyebrow {
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--go-text-muted); margin-bottom: .5rem;
+}
+.go-page-h1 {
+  font-size: 1.85rem; font-weight: 700; color: var(--go-text);
+  letter-spacing: -.035em; line-height: 1.1; margin-bottom: .4rem;
+}
+.go-page-sub {
+  font-size: .825rem; color: var(--go-text-mid);
+  line-height: 1.6; max-width: 600px;
+}
+
+/* ─── 8. SECTION SEPARATOR ───────────────────────────────────────────────── */
+.go-sep {
+  display: flex; align-items: center;
+  gap: 12px; margin: 2.5rem 0 1.25rem;
+}
+.go-sep-sm { margin: 1.5rem 0 1rem; }
+.go-sep-label {
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--go-text-muted); white-space: nowrap;
+}
+.go-sep-line { flex: 1; height: 1px; background: var(--go-border); }
+
+/* ─── 9. METRIC CARDS ────────────────────────────────────────────────────── */
+.go-mc {
+  background: var(--go-bg-subtle) !important;
+  border: 1px solid var(--go-border);
+  border-top: 2px solid var(--go-text);
+  padding: 1.25rem 1.25rem 1.1rem;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+.go-mc-label {
+  font-size: .6rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--go-text-muted); margin-bottom: .6rem;
+}
+.go-mc-value {
+  font-size: 2rem; font-weight: 700; color: var(--go-text);
+  letter-spacing: -.035em; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.go-mc-desc {
+  font-size: .7rem; color: var(--go-text-muted);
+  margin-top: .4rem; letter-spacing: .02em;
+}
+
+/* ─── 10. STREAMLIT WIDGETS & SUBPAGE ELEMENTS ──────────────────────────── */
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] {
+  gap: 0; border-bottom: 1px solid var(--go-border) !important;
+  background: transparent !important; padding-bottom: 0;
+}
+.stTabs [data-baseweb="tab"] {
+  font-size: .775rem !important; font-weight: 600 !important;
+  color: var(--go-text-muted) !important;
+  padding: .65rem 1.25rem !important;
+  background: transparent !important; border-radius: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  margin-bottom: -1px !important; letter-spacing: .02em;
+}
+.stTabs [data-baseweb="tab"]:hover { color: var(--go-text) !important; }
+.stTabs [aria-selected="true"] {
+  color: var(--go-text) !important;
+  border-bottom: 2px solid var(--go-text) !important;
+  background: transparent !important;
+}
+.stTabs [data-baseweb="tab-highlight"],
+.stTabs [data-baseweb="tab-border"] { display: none !important; }
+
+/* Unified Amber Buttons (Primary, Standard, Submit) */
+.stButton > button,
+.stFormSubmitButton > button,
+[data-testid="baseButton-primary"],
+[data-testid="baseButton-secondary"] {
+  background-color: var(--go-amber) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: var(--go-radius) !important;
+  font-size: .775rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .03em !important;
+  font-family: var(--go-font) !important;
+  padding: .55rem 1.2rem !important;
+  transition: background .15s !important;
+  box-shadow: none !important;
+}
+.stButton > button:hover,
+.stFormSubmitButton > button:hover,
+[data-testid="baseButton-primary"]:hover,
+[data-testid="baseButton-secondary"]:hover {
+  background-color: var(--go-amber-hover) !important;
+  color: #FFFFFF !important;
+}
+
+/* Download → outlined (Kept clean for PDFs/CSVs) */
+.stDownloadButton > button {
+  background-color: transparent !important;
+  color: var(--go-text) !important;
+  border: 1px solid var(--go-border-strong) !important;
+  font-weight: 500 !important;
+}
+.stDownloadButton > button:hover {
+  background-color: var(--go-bg-subtle) !important;
+  border-color: var(--go-text) !important;
+}
+
+/* Form inputs - Separated Backgrounds for clear contrast */
+[data-baseweb="input"] > div,
+[data-baseweb="select"] > div,
+[data-baseweb="textarea"] > div,
+[data-baseweb="base-input"] {
+  background-color: #ffffff !important;
+  border: 1px solid var(--go-border-strong) !important;
+  border-radius: var(--go-radius) !important;
+  font-family: var(--go-font) !important; 
+  font-size: .85rem !important;
+}
+[data-baseweb="input"]:focus-within,
+[data-baseweb="select"] > div:focus-within { border-color: var(--go-text) !important; }
+
+/* Dropdown Menu Options Typography (Fixes dull grey text) */
+[data-baseweb="menu"] {
+  background-color: #ffffff !important;
+  border: 1px solid var(--go-border-strong) !important;
+}
+[data-baseweb="menu"] li {
+  color: var(--go-text) !important;
+  font-weight: 500 !important;
+  font-size: .85rem !important;
+}
+[data-baseweb="menu"] li:hover {
+  background-color: var(--go-bg-subtle) !important;
+  color: var(--go-text) !important;
+}
+
+/* Form container */
+[data-testid="stForm"] {
+  border: 1px solid var(--go-border) !important;
+  border-radius: var(--go-radius) !important;
+  padding: 2rem !important;
+  background: var(--go-bg) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02) !important;
+}
+
+/* Field labels */
+[data-testid="stWidgetLabel"] p {
+  font-size: .775rem !important; font-weight: 600 !important;
+  color: var(--go-text) !important;
+}
+
+/* ─── ALERTS / INSIGHTS (COLOR RESTORED + CENTERED) ─── */
+[data-testid="stAlert"] {
+  border: 1px solid var(--go-border-strong) !important;
+  border-left: 3px solid var(--go-text) !important;
+  border-radius: 0 !important;
+  padding: 0 !important; /* Padding moves inside to allow full color fill */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important; /* Prevents inner color from bleeding outside sharp borders */
+}
+
+/* Warning/Error specific accent border */
+[data-testid="stAlert"]:has(svg[viewBox="0 0 24 24"]) {
+  border-left: 3px solid var(--go-amber) !important;
+}
+
+/* 1. Inner wrapper: Restores native background color, enforces centering */
+[data-testid="stAlert"] [data-baseweb="notification"] {
+  /* Removed 'background: transparent' so native colors return */
+  border: none !important;
+  margin: 0 !important;
+  padding: 0.85rem 1.25rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* 2. Strip ALL sizing from intermediate invisible wrappers */
+[data-testid="stAlert"] [data-baseweb="notification"] > div,
+[data-testid="stAlert"] [data-testid="stMarkdownContainer"] {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* 3. Target the text directly and kill native margins */
+[data-testid="stAlert"] p {
+  color: var(--go-text) !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+  display: block !important;
+}
+
+/* 4. Handle the icon so it does not skew the flexbox */
+[data-testid="stAlert"] svg {
+  margin: 0 0.75rem 0 0 !important;
+  padding: 0 !important;
+  color: var(--go-text) !important; /* Overrides native pastel icon colors for contrast */
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Bordered container */
+[data-testid="stVerticalBlockBorderWrapper"] {
+  border: 1px solid var(--go-border) !important;
+  border-radius: var(--go-radius) !important;
+  padding: 1.25rem !important;
+  background: var(--go-bg);
+}
+
+/* Expander */
+.stExpander {
+  border: 1px solid var(--go-border) !important;
+  border-radius: var(--go-radius) !important;
+  background: var(--go-bg) !important;
+}
+.stExpander summary {
+  font-size: .825rem !important; font-weight: 600 !important;
+  color: var(--go-text) !important;
+}
+
+/* Data editor / dataframe */
+[data-testid="stDataFrame"],[data-testid="stDataEditor"] {
+  border: 1px solid var(--go-border) !important;
+  border-radius: var(--go-radius) !important;
+  overflow: hidden;
+}
+[data-testid="stDataFrame"] th, [data-testid="stDataEditor"] th {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--go-text-muted) !important;
+  border-bottom: 1px solid var(--go-border-strong) !important;
+  background-color: var(--go-bg-subtle) !important;
+}
+
+/* ─── DATA VISUALIZATION (DYNAMIC RESIZE & SCROLLBAR PURGE) ─── */
+[data-testid="stPlotlyChart"] {
+  border: 1px solid var(--go-border) !important;
+  border-radius: var(--go-radius) !important;
+  background: var(--go-bg) !important;
+  /* 1. Strip all padding from the outer wrapper to prevent Streamlit math errors */
+  padding: 0 !important; 
+  /* 2. Force hard clip on the outer box */
+  overflow: hidden !important; 
+}
+
+/* 3. Dynamically reduce iframe size to create internal breathing room */
+[data-testid="stPlotlyChart"] iframe {
+  width: calc(100% - 2.5rem) !important;
+  height: calc(100% - 2.5rem) !important;
+  margin: 1.25rem !important;
+  border: none !important;
+  /* 4. Terminate any internal iframe scrollbars natively */
+  overflow: hidden !important; 
+}
+
+/* Ensure the internal iframe behaves */
+[data-testid="stPlotlyChart"] iframe {
+  overflow: hidden !important;
+}
+
+/* Caption */
+[data-testid="stCaptionContainer"] p {
+  font-size: .75rem !important; color: var(--go-text-muted) !important;
+}
+
+/* Spinner */
+[data-testid="stSpinner"] p {
+  font-size: .825rem !important; color: var(--go-text-muted) !important;
+}
+
+/* Multiselect tags */
+[data-baseweb="tag"] {
+  border-radius: var(--go-radius) !important;
+  background-color: var(--go-bg-dim) !important;
+  color: var(--go-text) !important;
+}
+
+/* Radio / checkbox labels */
+[data-testid="stRadio"] label p,
+[data-testid="stCheckbox"] label p { font-size: .825rem !important; }
+
+/* Number / date inputs */
+[data-testid="stNumberInput"] input,
+[data-testid="stDateInput"] input {
+  font-size: .85rem !important; font-family: var(--go-font) !important;
+}
+
+/* st.info caption below widgets */
+small,[data-testid="stWidgetInstructions"] {
+  font-size: .725rem !important; color: var(--go-text-muted) !important;
+}
+
+/* ─── CUSTOM EDITORIAL SCROLLBAR ─── */
+::-webkit-scrollbar {
+  width: 10px; height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--go-bg);
+  border-left: 1px solid var(--go-border);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--go-border-strong); 
+  border-radius: 8px; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--go-text-muted); 
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--go-border-strong) var(--go-bg);
+}

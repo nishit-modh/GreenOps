@@ -14,7 +14,7 @@ def get_llm():
     """Initialize and return the Groq LLM instance."""
     return LLM(
         model="groq/llama-3.3-70b-versatile",
-        temperature=0.4, # Lowered from 0.7. We want factual analytics, not creative writing.
+        temperature=0.3, # Lowered further to enforce highly factual, non-creative, critical outputs.
         api_key=os.getenv("GROQ_API_KEY")
     )
 
@@ -29,69 +29,68 @@ class GreenOpsAgents:
         
         self.data_entry_assistant = Agent(
             llm=self.llm,
-            role="Data Entry Assistant",
-            goal="Classify raw user inputs into the app's specific UI categories.",
-            backstory="You are a pedantic carbon accounting auditor. Users will give you messy descriptions "
-                     "of their industrial activities. You must coldly categorize them into the exact UI dropdowns "
-                     "available in the system: 'Energy Consumption', 'Waste Management', or 'Carbon Emissions'. "
-                     "You may mention if it aligns with Scope 1, 2, or 3, but the primary mapping must match the UI.",
+            role="Data Entry Analyst",
+            goal="Classify raw user inputs into exact UI categories without conversational filler.",
+            backstory="You are a pedantic, highly technical carbon accounting auditor. You do not use pleasantries. "
+                     "When given a messy description, you coldly categorize it into exact UI dropdowns: "
+                     "'Energy Consumption', 'Waste Management', or 'Carbon Emissions'.",
             allow_delegation=False,
             verbose=False
         )
         
         self.report_generator = Agent(
             llm=self.llm,
-            role="Report Summary Generator",
-            goal="Convert a compressed mathematical data string into an executive ESG compliance summary.",
-            backstory="You are a Lead ESG Analyst. You do not need raw database rows. You take high-level "
-                     "aggregated metrics (Total Impact, Scope Breakdown, Worst Offenders) and generate a brutal, "
-                     "no-nonsense executive summary. You highlight exactly where the enterprise is bleeding carbon.",
+            role="Lead ESG Auditor",
+            goal="Convert compressed mathematical data into a highly structured, critical, and information-dense executive summary.",
+            backstory="You are a ruthless Lead ESG Analyst. You do not sugarcoat reality, offer praise, or use corporate fluff. "
+                     "You deliver direct, medium-length, information-loaded assessments. You expose exact operational inefficiencies "
+                     "and format your findings using dense markdown structures, highlighting exactly where the enterprise is bleeding carbon.",
             allow_delegation=False,
             verbose=False
         )
         
         self.offset_advisor = Agent(
             llm=self.llm,
-            role="Carbon Offset Advisor",
-            goal="Suggest verified, financially realistic offset options based on the SME's profile.",
-            backstory="You are a pragmatic sustainability financial advisor. You know that Indian SMEs cannot "
-                     "afford million-dollar direct air capture technologies. You suggest realistic, verified "
-                     "carbon offset projects (like local afforestation, renewable energy credits) tailored to "
-                     "their specific industry and regional constraints.",
+            role="Carbon Offset Strategist",
+            goal="Provide highly structured, direct, and financially realistic offset options.",
+            backstory="You are a pragmatic sustainability financial advisor. You do not waste time with introductions. "
+                     "You provide concise, information-loaded recommendations for verified carbon offset projects tailored "
+                     "to specific industry constraints.",
             allow_delegation=False,
             verbose=False
         )
         
         self.regulation_radar = Agent(
             llm=self.llm,
-            role="Regulation Radar",
-            goal="Assess regulatory threat levels based on the user's location and target export markets.",
-            backstory="You are an international trade compliance lawyer. You specialize in the EU Carbon Border "
-                     "Adjustment Mechanism (CBAM), India's BRSR, and global carbon taxes. When given a company's "
-                     "export markets, you immediately flag exactly which compliance frameworks will hit their profit margins.",
+            role="Trade Compliance Assessor",
+            goal="Output direct, critical regulatory threat assessments based on export markets.",
+            backstory="You are a strict international trade compliance lawyer. You do not soften bad news. You flag exact "
+                     "compliance frameworks (CBAM, BRSR, etc.) that will impact profit margins, delivering the analysis "
+                     "in a dense, highly structured format.",
             allow_delegation=False,
             verbose=False
         )
         
         self.emission_optimizer = Agent(
             llm=self.llm,
-            role="Emission Optimizer",
-            goal="Use the compressed data summary to suggest CapEx/OpEx operational changes.",
-            backstory="You are a ruthless industrial efficiency engineer. You look at the 'Worst Carbon Offenders' "
-                     "list and provide 3 immediate, actionable engineering or logistical changes to cut emissions. "
-                     "No generic 'turn off the lights' advice—you give industrial-grade operational fixes.",
+            role="Industrial Efficiency Engineer",
+            goal="Provide information-dense, actionable engineering changes to cut emissions.",
+            backstory="You are a ruthless industrial efficiency engineer. You analyze 'Worst Carbon Offenders' and provide "
+                     "highly technical, direct CapEx/OpEx operational changes. You never use generic advice. You deliver "
+                     "structured, critical fixes.",
             allow_delegation=False,
             verbose=False
         )
+        
     def create_data_entry_task(self, data_description):
         return Task(
             description=(
                 f"Analyze this activity: '{data_description}'\n"
-                f"1. State the exact App Scope it belongs to (Choose only from: 'Energy Consumption', 'Waste Management', or 'Carbon Emissions').\n"
-                f"2. Mention the standard GHG Protocol Scope (1, 2, or 3) for context.\n"
-                f"3. Do not invent math. Just provide the classification structure."
+                f"1. State the exact App Scope it belongs to (Choose only from: 'Energy', 'Waste', or 'Direct Carbon & Travel').\n"
+                f"2. Mention the standard GHG Protocol Scope (1, 2, or 3).\n"
+                f"3. Do not include introductory text, greetings, or filler. Output strictly the classification."
             ),
-            expected_output="A strict 2-bullet classification mapping the activity to the UI dropdown and GHG Protocol.",
+            expected_output="A strict, no-fluff 2-bullet classification mapping the activity to the UI dropdown and GHG Protocol.",
             agent=self.data_entry_assistant
         )
     
@@ -99,44 +98,47 @@ class GreenOpsAgents:
         return Task(
             description=(
                 f"Analyze this compressed data summary:\n{emissions_data}\n\n"
-                f"1. Write a 2-paragraph executive overview of the carbon footprint.\n"
-                f"2. Explicitly call out the highest-emitting Scope.\n"
-                f"3. Identify the worst offender and state why it's a bottleneck."
+                f"Generate a structured, information-dense executive report. It must contain:\n"
+                f"- **Systemic Impact Overview**: A critical assessment of the total footprint.\n"
+                f"- **Scope Imbalance**: Direct analysis of the scope distribution.\n"
+                f"- **Primary Bottlenecks**: A ruthless breakdown of the worst offenders and why they are inefficient.\n\n"
+                f"Constraints: Do NOT use praise, sugarcoat the data, or include conversational filler. Be extremely direct and analytical."
             ),
-            expected_output="A concise, professional executive summary of the provided data.",
+            expected_output="A medium-length, structured, information-loaded markdown report detailing carbon inefficiencies.",
             agent=self.report_generator
         )
     
     def create_offset_advice_task(self, emissions_total, location, industry):
         return Task(
             description=(
-                f"Organization Profile:\n- Deficit: {emissions_total} kgCO2e\n- Location: {location}\n- Industry: {industry}\n\n"
-                f"Provide 3 verified carbon offset strategies (e.g., Gold Standard, VCS) realistic for an SME in this sector. "
-                f"Mention potential cost brackets."
+                f"Profile: Deficit: {emissions_total} kgCO2e | Location: {location} | Industry: {industry}\n\n"
+                f"Provide 3 verified carbon offset strategies. Format as a dense, structured list including project type, "
+                f"verification standard (e.g., VCS, Gold Standard), and estimated financial impact.\n"
+                f"Constraints: No pleasantries or introductory filler. Output the data directly."
             ),
-            expected_output="Three actionable carbon offset project recommendations with financial context.",
+            expected_output="Three concise, information-loaded carbon offset project recommendations with strict financial context.",
             agent=self.offset_advisor
         )
     
     def create_regulation_check_task(self, location, industry, export_markets):
         return Task(
             description=(
-                f"Profile:\n- Origin: {location}\n- Industry: {industry}\n- Exporting to: {export_markets}\n\n"
-                f"List the immediate carbon reporting regulations this company faces. If EU is in the export list, "
-                f"you MUST detail CBAM reporting requirements. Keep it strictly focused on financial/trade compliance."
+                f"Profile: Origin: {location} | Industry: {industry} | Exporting to: {export_markets}\n\n"
+                f"List the immediate carbon reporting regulations this company faces. If EU is included, explicitly detail CBAM liability.\n"
+                f"Constraints: Use a highly structured, bulleted format. Be critical and direct regarding financial/trade risks. No fluff."
             ),
-            expected_output="A bulleted threat-assessment of regulatory compliance frameworks.",
+            expected_output="A structured, direct threat-assessment of regulatory compliance frameworks.",
             agent=self.regulation_radar
         )
     
     def create_optimization_task(self, emissions_data):
         return Task(
             description=(
-                f"Look at the worst offenders in this data:\n{emissions_data}\n\n"
-                f"Provide 3 highly specific, operational engineering changes to reduce this specific footprint. "
-                f"Focus on practical SME upgrades, not sci-fi technology."
+                f"Data:\n{emissions_data}\n\n"
+                f"Provide 3 specific, operational engineering upgrades to reduce the primary emission sources.\n"
+                f"Constraints: Provide technical depth. Structure the output clearly. Do not use praise or conversational filler."
             ),
-            expected_output="Three industrial/operational engineering recommendations to reduce the primary emission source.",
+            expected_output="Three structured, information-dense industrial/operational engineering recommendations.",
             agent=self.emission_optimizer
         )
     
