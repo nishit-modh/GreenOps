@@ -1,231 +1,132 @@
-# GreenOps - AI Agents powered Carbon Accounting Tool
+# 🌱 GreenOps: AI-Driven ESG & Carbon Accounting Engine
 
-![Carbon Footprint](https://img.shields.io/badge/Carbon-Footprint-green)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
-![CrewAI](https://img.shields.io/badge/CrewAI-AI%20Agents-blue)
-![Groq](https://img.shields.io/badge/Groq-LLM-purple)
+![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
+![Streamlit](https://img.shields.io/badge/Streamlit-Native_Multi--Page-FF4B4B.svg)
+![AI](https://img.shields.io/badge/AI_Engine-Llama--3_(Groq)-purple.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-A lightweight, multilingual carbon accounting and reporting tool for SMEs in Asia, with AI-powered insights and data entry.
+GreenOps is an enterprise-grade Environmental, Social, and Governance (ESG) compliance and predictive analytics engine. Engineered specifically for SMEs (Small and Medium-sized Enterprises), it digitizes the GHG Protocol to track Scope 1, 2, and 3 emissions while utilizing autonomous AI agents to ensure international regulatory compliance (e.g., EU CBAM).
 
-## 📋 Table of Contents
+## 🚀 Core Capabilities
 
-- [Features](#-features)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-- [AI Agents](#-ai-agents)
-- [Data Structure](#-data-structure)
-- [Contributing](#-contributing)
-- [License](#-license)
+### 📊 GHG Protocol Physics Engine
+* **Strict Regional Math:** Calculates carbon footprints using geofenced, IPCC/DEFRA-compliant emission factors.
+* **Scope Isolation:** Automatically categorizes entries into Scope 1 (Direct), Scope 2 (Purchased Electricity), and Scope 3 (Value Chain).
+* **Custom PPAs:** Supports enterprise Power Purchase Agreements (PPAs) with self-verified custom grid overrides.
 
-## ✨ Features
+### 🧠 Autonomous AI Advisory (Llama-3)
+* **Context Compression:** Dynamically compresses massive Pandas DataFrames to bypass LLM token limits without losing mathematical accuracy.
+* **Regulation Radar:** Cross-references facility locations and export markets against emerging carbon border taxes (e.g., EU CBAM, US frameworks).
+* **Optimization Strategy:** Generates real-time CapEx/OpEx operational optimization and verified offset recommendations.
 
-### Core Features
-- **Enterprise-Grade Data Entry**: Comprehensive form with business unit tracking, project categorization, facility details, and data quality indicators
-- **Dashboard Visualization**: Interactive charts and graphs for emissions data analysis
-- **AI-Powered Insights**: Specialized AI agents for various carbon accounting tasks
-- **Data Management**: CSV import/export, robust error handling, and automatic backups
-- **Multilingual Support**: Available in multiple languages
+### 🛡️ Enterprise Data Integrity
+* **Cryptographic Ingestion:** Uses MD5 row-hashing during bulk CSV uploads to detect and block duplicate data corruption.
+* **Zero-Ghost Data:** Server-side validation actively blocks `0.0` quantity logging to prevent artificial deflation of annual run-rate projections.
+* **Surgical Range Delete:** Destructive database actions are protected by explicit user verification protocols.
 
-### AI Agent Features
-| Agent | Role |
-|-------|------|
-| Data Entry Assistant | Helps users classify emissions, map to scopes, and validate data entries |
-| Report Summary Generator | Converts emission data into human-readable summaries |
-| Carbon Offset Advisor | Suggests verified offset options based on user profile and location |
-| Regulation Radar | Notifies users of upcoming compliance needs |
-| Emission Optimizer | Uses historical data to suggest reductions and savings |
+### 📑 Executive Reporting
+* **Memory-Safe Architecture:** Bypasses raw-row rendering limits by synthesizing data via `FPDF` into high-level, 1-page executive PDF summaries.
+* **Ternary Analytics:** Maps energy transition trajectories (Clean vs. Grid vs. Fossil) using complex Plotly ternary scatter charts.
 
-## 🏗 Architecture
+---
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                       GreenOps App                           │
-└───────────────────────────────────┬─────────────────────────────────────┘
-                                    │
-                ┌─────────────────────────────────────┐
-                │                                     │
-┌───────────────▼───────────────┐       ┌─────────────▼─────────────┐
-│      Frontend (Streamlit)     │       │      Backend Services     │
-│                               │       │                           │
-│  ┌─────────────────────────┐  │       │  ┌─────────────────────┐  │
-│  │    Navigation System    │  │       │  │   Data Management   │  │
-│  │  - Dashboard            │  │       │  │  - JSON Storage     │  │
-│  │  - Data Entry           │  │       │  │  - CSV Import       │  │
-│  │  - AI Insights          │  │       │  │  - Backup System    │  │
-│  │  - Settings             │  │       │  └─────────────────────┘  │
-│  └─────────────────────────┘  │       │                           │
-│                               │       │  ┌─────────────────────┐  │
-│  ┌─────────────────────────┐  │       │  │  AI Agent System    │  │
-│  │   Data Entry Module     │  │       │  │  - CrewAI Framework │  │
-│  │  - Enterprise Form      │◄─┼───────┼──┤  - Groq LLM         │  │
-│  │  - Validation           │  │       │  │  - Specialized      │  │
-│  │  - AI Suggestions       │  │       │  │    Agent Roles      │  │
-│  └─────────────────────────┘  │       │  └─────────────────────┘  │
-│                               │       │                           │
-│  ┌─────────────────────────┐  │       │  ┌─────────────────────┐  │
-│  │   Dashboard Module      │  │       │  │  Analytics Engine   │  │
-│  │  - Emissions Overview   │◄─┼───────┼──┤  - Data Processing  │  │
-│  │  - Charts & Graphs      │  │       │  │  - Calculations     │  │
-│  │  - Filtering            │  │       │  │  - Visualization    │  │
-│  └─────────────────────────┘  │       │  └─────────────────────┘  │
-└───────────────────────────────┘       └───────────────────────────┘
+## 🏗️ System Architecture
+
+GreenOps utilizes Streamlit's native multi-page architecture to isolate memory and ensure zero-latency routing.
+
+```text
+GreenOps/
+├── Home.py                     # UI Landing Page & SaaS Hero Section
+├── data_store.py               # Session State Management & Data Persistence
+├── ui_components.py            # Reusable UI Components & CSS Styling
+├── emission_factors.py         # The Physics Engine: Centralized IPCC/DEFRA constants
+├── ai_agents.py                # LLM Interface: CrewAI logic via Groq
+├── report_generator.py         # PDF Report Generation Engine (FPDF2)
+├── data_generator.py           # Synthetic Data Generation Utilities
+├── pyproject.toml              # Project Dependencies & Configuration (uv)
+├── .streamlit/
+│   └── config.toml             # Theme Config: Hardcoded Light Mode to prevent OS clashing
+├── fonts/                      # UTF-8 Font binaries for FPDF export (DejaVu)
+├── data/                       # Local JSON storage (emissions.json, settings.json)
+└── pages/                      # Isolated Application Modules
+    ├── 1_Dashboard.py          # Visual Analytics & Report Generation
+    ├── 2_Data_Entry.py         # Dynamic UI Ingestion Pipeline
+    ├── 3_AI_Insights.py        # Autonomous Agent Interface
+    └── 4_Settings.py           # Global Enterprise Context & Geofencing
 ```
 
-## 🚀 Installation
+## ⚙️ Installation & Setup
 
 ### Prerequisites
-- Python 3.9+
-- Groq API key (for AI features)
+- Python 3.12 or higher
+- [uv](https://github.com/astral-sh/uv) package manager (recommended)
 
-### Setup
+### 1. Clone the repository
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/AIAnytime/Your-Carbon-Footprint/tree/main.git
-cd Your-Carbon-Footprint/
+git clone https://github.com/yourusername/greenops.git
+cd greenops
 ```
 
-2. Create and activate a virtual environment:
+### 2. Install dependencies
+
+Using **uv** (recommended):
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv sync
 ```
 
-3. Install dependencies:
+Or using standard **pip**:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file in the project root with your Groq API key:
+**Dependencies include:** `streamlit`, `pandas`, `plotly`, `python-dotenv`, `fpdf2`, `crewai[litellm]`, `uuid`
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root directory and add your Groq API key for the AI engine:
+
+```env
+GROQ_API_KEY=your_api_key_here
 ```
-GROQ_API_KEY=your_groq_api_key_here
-```
 
-## ⚙️ Configuration
-
-### Environment Variables
-- `GROQ_API_KEY`: Your Groq API key for AI agent functionality
-
-### Data Storage
-- Emissions data is stored in `data/emissions.json`
-- Company settings are stored in `data/settings.json`
-- Automatic backups are created for corrupted files with timestamped filenames
-
-## 📊 Usage
-
-### Running the Application
+### 4. Boot the Application
 
 ```bash
-streamlit run app.py
+streamlit run Home.py
 ```
-
-### Navigation
-- **Dashboard**: View emissions data visualizations and analytics
-- **Data Entry**: Add new emission entries with enterprise-grade form
-- **AI Insights**: Access specialized AI agents for carbon accounting assistance
-- **Settings**: Configure company information and preferences
-
-### Data Entry Form
-The enhanced enterprise-grade data entry form includes:
-- Business unit and project tracking
-- Facility location and responsible person fields
-- Data quality indicators and verification status
-- AI-powered emission factor suggestions
-- Financial impact tracking (optional)
-
-### CSV Import/Export
-- Upload CSV files with emissions data
-- Download sample CSV template
-- Export emissions data as CSV or PDF reports
-
-## 🤖 AI Agents
-
-GreenOps integrates five specialized AI agents using CrewAI and Groq LLM:
-
-1. **Data Entry Assistant**: Helps classify emissions and validate data entries
-2. **Report Summary Generator**: Creates human-readable summaries from emissions data
-3. **Carbon Offset Advisor**: Recommends verified carbon offset options
-4. **Regulation Radar**: Provides updates on compliance requirements
-5. **Emission Optimizer**: Suggests ways to reduce emissions based on historical data
-
-### AI Agent Implementation
-
-```python
-from crewai import Agent, Task, Crew, Process
-from crewai.llms import LLM
-
-# Initialize LLM
-llm = LLM(provider="groq", model="llama3-70b-8192")
-
-# Create an agent
-data_entry_assistant = Agent(
-    llm=llm,
-    role="Data Entry Assistant",
-    goal="Help users classify emissions, map to scopes, and validate data entries",
-    backstory="You are an expert in carbon accounting who helps users correctly categorize "
-             "their emissions data and ensure it's properly mapped to the right scope.",
-    allow_delegation=False,
-    verbose=False
-)
-
-# Create a task
-data_entry_task = Task(
-    description="Analyze the user's emission data and provide guidance on classification",
-    agent=data_entry_assistant
-)
-
-# Create and run a crew
-crew = Crew(
-    agents=[data_entry_assistant],
-    tasks=[data_entry_task],
-    verbose=False,
-    process=Process.sequential
-)
-
-result = crew.kickoff(inputs={"user_query": "How should I categorize my company's electricity usage?"})
-```
-
-## 📁 Data Structure
-
-### Emissions Data Format
-
-```json
-{
-  "date": "2025-01-15",
-  "business_unit": "Corporate",
-  "project": "Carbon Reduction Initiative",
-  "scope": "Scope 2",
-  "category": "Electricity",
-  "activity": "Office Electricity",
-  "country": "India",
-  "facility": "Mumbai HQ",
-  "responsible_person": "Rahul Sharma",
-  "quantity": 1000.0,
-  "unit": "kWh",
-  "emission_factor": 0.82,
-  "emissions_kgCO2e": 820.0,
-  "data_quality": "High",
-  "verification_status": "Internally Verified",
-  "notes": "Monthly electricity bill"
-}
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
-Built by AI Anytime with ❤️ for a sustainable future
+## 🗄️ Database Structure
+
+Local persistence utilizes flat JSON files mapped to Pandas DataFrames for rapid SME deployment.
+
+### Example `emissions.json` Schema
+
+```json
+[
+  {
+    "date": "2026-04-04",
+    "business_unit": "Main Office",
+    "scope": "Scope 2",
+    "category": "Electricity",
+    "activity": "India Grid",
+    "country": "India",
+    "facility": "Ahmedabad HQ",
+    "responsible_person": "Data Officer",
+    "quantity": 1500.0,
+    "unit": "kWh",
+    "emission_factor": 0.82,
+    "emissions_kgCO2e": 1230.0
+  }
+]
+```
+
+---
+
+### Acknowledgments
+
+This project was developed starting from an initial architectural reference by AI Anytime. It has since been >95% rewritten, modularized, and enhanced with enterprise-grade ESG physics, cryptographic data guards, and FPDF reporting capabilities.
