@@ -175,15 +175,3 @@ else:
             st.success(f"Deleted {len(rows_to_delete)} row(s).")
             st.rerun()
 
-# ── Danger Zone ────────────────────────────────────────────────────────────────
-ui.sep("Administration", small=True)
-
-with st.expander("Danger Zone — Irreversible Actions"):
-    st.warning("These actions bypass row selection and cannot be undone.")
-    if st.button("Purge Entire Database", type="primary", use_container_width=True):
-        st.session_state.emissions_data = pd.DataFrame(
-            columns=st.session_state.emissions_data.columns
-        )
-        ds.save_emissions_data()
-        st.success("Database purged.")
-        st.rerun()

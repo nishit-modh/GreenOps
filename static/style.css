@@ -131,7 +131,7 @@ h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
 .go-hero {
   background: var(--go-hero-bg) !important;
   padding: 5rem 3rem 4.5rem; 
-  margin: 0 auto 4rem auto !important; 
+  margin: -2.25rem auto 4rem auto !important; 
   width: 100%; 
   max-width: none; 
   border-radius: 20px; 
@@ -235,15 +235,18 @@ h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
 .go-stat-value.go-empty { color: #2D3748; }
 .go-stat-sub { font-size: .65rem; color: #4B5563; margin-top: .3rem; }
 
-/* ─── 5. HOMEPAGE SECTIONS ───────────────────────────────────────────────── */
+/* ─── 5. HOMEPAGE SECTIONS (SCALED TYPOGRAPHY 1.2x) ──────────────────────── */
 .go-section {
   padding: 4.5rem 0;
   margin-left: calc(-1 * var(--go-cx));
   margin-right: calc(-1 * var(--go-cx));
 }
 .go-section-alt { background: var(--go-bg-subtle); }
+
+/* Section Labels (e.g. PLATFORM CAPABILITIES) */
 .go-section-label {
-  font-size: .6rem; font-weight: 700;
+  font-size: .725rem; /* Increased from .6rem */
+  font-weight: 700;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--go-text-muted);
   display: flex; align-items: center; gap: 12px;
@@ -252,6 +255,7 @@ h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
 .go-section-label::after {
   content: ''; flex: 1; height: 1px; background: var(--go-border);
 }
+
 .go-caps {
   display: grid; grid-template-columns: repeat(3,1fr);
   border-top: 2px solid var(--go-text); padding-top: 1.75rem;
@@ -259,16 +263,24 @@ h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
 .go-cap { padding-right: 2rem; border-right: 1px solid var(--go-border); }
 .go-cap:last-child  { border-right: none; padding-right: 0; }
 .go-cap:not(:first-child) { padding-left: 2rem; }
+
+/* Capability Cards */
 .go-cap-num {
-  font-size: .65rem; font-weight: 700;
+  font-size: .775rem; /* Increased from .65rem */
+  font-weight: 700;
   letter-spacing: .1em; color: var(--go-amber);
   margin-bottom: 1.1rem; font-variant-numeric: tabular-nums;
 }
 .go-cap-title {
-  font-size: .925rem; font-weight: 600; color: var(--go-text);
+  font-size: 1.1rem; /* Increased from .925rem */
+  font-weight: 600; color: var(--go-text);
   margin-bottom: .6rem; line-height: 1.3; letter-spacing: -.015em;
 }
-.go-cap-desc { font-size: .8rem; color: var(--go-text-mid); line-height: 1.65; }
+.go-cap-desc { 
+  font-size: .95rem; /* Increased from .8rem */
+  color: var(--go-text-mid); 
+  line-height: 1.65; 
+}
 
 .go-kpi-grid {
   display: grid; grid-template-columns: repeat(4,1fr);
@@ -280,54 +292,71 @@ h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
   border-right: 1px solid var(--go-border);
 }
 .go-kpi:last-child { border-right: none; }
+
+/* KPI Blocks */
 .go-kpi-label {
-  font-size: .6rem; font-weight: 700;
+  font-size: .7rem; /* Increased from .6rem */
+  font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
   color: var(--go-text-muted); margin-bottom: .6rem;
 }
 .go-kpi-value {
-  font-size: 1.85rem; font-weight: 700; color: var(--go-text);
+  font-size: 2.15rem; /* Increased from 1.85rem */
+  font-weight: 700; color: var(--go-text);
   letter-spacing: -.035em; line-height: 1; font-variant-numeric: tabular-nums;
 }
 .go-kpi-unit {
-  font-size: .65rem; color: var(--go-text-muted);
+  font-size: .775rem; /* Increased from .65rem */
+  color: var(--go-text-muted);
   margin-top: .35rem; font-weight: 500; letter-spacing: .04em;
 }
 .go-kpi-accent { border-left: 2px solid var(--go-amber); }
+
+/* Empty State Box */
 .go-snapshot-empty {
   border: 1px dashed var(--go-border-strong);
   padding: 2.5rem; margin-top: 2rem;
   text-align: center; border-radius: var(--go-radius);
 }
 .go-snapshot-empty-title {
-  font-size: .875rem; font-weight: 600;
+  font-size: 1.05rem; /* Increased from .875rem */
+  font-weight: 600;
   color: var(--go-text-mid); margin-bottom: .4rem;
 }
 .go-snapshot-empty-sub {
-  font-size: .775rem; color: var(--go-text-muted); line-height: 1.6;
+  font-size: .9rem; /* Increased from .775rem */
+  color: var(--go-text-muted); line-height: 1.6;
 }
+
+/* Bottom Steps Grid */
 .go-steps-grid {
   display: grid; grid-template-columns: repeat(4,1fr);
   position: relative; margin-top: 2rem;
 }
 .go-steps-grid::before {
   content: ''; position: absolute;
-  top: .95rem; left: 12.5%; right: 12.5%;
+  top: 1.1rem; left: 12.5%; right: 12.5%; /* Adjusted top offset slightly for larger numbers */
   height: 1px; background: var(--go-border);
 }
 .go-step { text-align: center; position: relative; padding: 0 1rem; }
 .go-step-num {
-  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  width: 2.2rem; height: 2.2rem; /* Increased from 1.9rem */
+  border-radius: 50%;
   background: var(--go-text); color: #FFFFFF;
-  font-size: .65rem; font-weight: 700;
+  font-size: .775rem; /* Increased from .65rem */
+  font-weight: 700;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 1rem;
 }
 .go-step-title {
-  font-size: .8rem; font-weight: 600; color: var(--go-text);
+  font-size: .95rem; /* Increased from .8rem */
+  font-weight: 600; color: var(--go-text);
   margin-bottom: .35rem; letter-spacing: -.01em;
 }
-.go-step-desc { font-size: .725rem; color: var(--go-text-muted); line-height: 1.55; }
+.go-step-desc { 
+  font-size: .85rem; /* Increased from .725rem */
+  color: var(--go-text-muted); line-height: 1.55; 
+}
 
 /* ─── 6. UNIVERSAL FOOTER ────────────────────────────────────────────────── */
 .go-footer {
@@ -589,7 +618,7 @@ h1 a,h2 a,h3 a,h4 a,h5 a { display: none !important; }
 .stExpander {
   border: 1px solid var(--go-border) !important;
   border-radius: var(--go-radius) !important;
-  background: var(--go-bg) !important;
+  background: #ffc7c7a4 !important;
 }
 .stExpander summary {
   font-size: .825rem !important; font-weight: 600 !important;

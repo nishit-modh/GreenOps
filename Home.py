@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 import data_store as ds
 import ui_components as ui
@@ -33,8 +34,8 @@ if has_data:
     min_d = df["date"].min()
     max_d = df["date"].max()
     period_str  = f"{min_d.strftime('%b %Y')} – {max_d.strftime('%b %Y')}"
-    updated_str = max_d.strftime("%-d %b %Y") if pd.notna(max_d) else "—"
-
+    # Change "%-d %b %Y" to "%d %b %Y"
+    updated_str = max_d.strftime("%d %b %Y") if pd.notna(max_d) else "—"
     # Snapshot KPIs
     scope_totals  = df.groupby("ghg_scope")["emissions_kgCO2e"].sum() if "ghg_scope" in df.columns else df.groupby("scope")["emissions_kgCO2e"].sum()
     top_scope     = scope_totals.idxmax() if not scope_totals.empty else "—"
@@ -57,8 +58,9 @@ else:
     stat_period    = "No data loaded"
     updated_str    = "—"
 
-today_str = datetime.now().strftime("%-d %b %Y, %H:%M")
-
+# Change "%-d %b %Y, %H:%M" to "%d %b %Y, %H:%M"
+# Forces the timestamp to evaluate in IST, bypassing OS defaults
+today_str = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y, %H:%M")
 
 # ─── HERO SECTION ─────────────────────────────────────────────────────────────
 st.markdown(f"""

@@ -3,6 +3,7 @@ import json
 import os
 import data_store as ds
 import ui_components as ui
+import pandas as pd
 
 st.set_page_config(page_title="Settings - GreenOps", page_icon="🌱", layout="wide")
 ds.init_session_state()
@@ -120,3 +121,16 @@ with st.form("company_info_form"):
             with open("data/settings.json", "w") as fh:
                 json.dump(st.session_state.company_settings, fh, indent=2)
             st.success("Configuration saved.")
+
+# ── Danger Zone ────────────────────────────────────────────────────────────────
+ui.sep("Administration", small=True)
+
+with st.expander("Danger Zone — Irreversible Actions"):
+    st.warning("These actions bypass row selection and cannot be undone.")
+    if st.button("Purge Entire Database", type="primary", use_container_width=True):
+        st.session_state.emissions_data = pd.DataFrame(
+            columns=st.session_state.emissions_data.columns
+        )
+        ds.save_emissions_data()
+        st.success("Database purged.")
+        st.rerun()
